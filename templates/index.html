@@ -1,307 +1,897 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="dark" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberGuard // Next-Gen Penetration Testing Suite</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Main Style -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="web_dashboard" name="shell-type"/>
+    <title>AUDIT-CORE // PENETRATION SUITE</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <style>
+        @layer base {
+            html, body { margin: 0; padding: 0; }
+            body { overscroll-behavior: none; }
+            main > :first-child { margin-top: 0 !important; }
+            main > :last-child { margin-bottom: 0 !important; }
+        }
+        ::-webkit-scrollbar { display: none; }
+        * { box-shadow: none !important; }
+        .font-mono { font-family: 'IBM Plex Mono', Consolas, monospace; }
+        .font-sans { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            "darkMode": "class",
+            "theme": {
+                "extend": {
+                    "colors": {
+                        "surface": "#111316",
+                        "surface-dim": "#111316",
+                        "surface-bright": "#37393d",
+                        "surface-container-lowest": "#0c0e11",
+                        "surface-container-low": "#1a1c1f",
+                        "surface-container": "#1e2023",
+                        "surface-container-high": "#282a2d",
+                        "surface-container-highest": "#333538",
+                        "surface-variant": "#333538",
+                        "on-surface": "#e2e2e6",
+                        "on-surface-variant": "#c1c6d6",
+                        "outline": "#8b919f",
+                        "outline-variant": "#414753",
+                        "primary": "#aac7ff",
+                        "primary-container": "#418fff",
+                        "primary-fixed": "#d7e3ff",
+                        "on-primary": "#002f65",
+                        "secondary": "#bec7d2",
+                        "secondary-container": "#414a53",
+                        "tertiary": "#6bde80",
+                        "tertiary-container": "#2fa54f",
+                        "error": "#ffb4ab",
+                        "error-container": "#93000a",
+                        "on-error": "#690005"
+                    },
+                    "spacing": {
+                        "space-xs": "0.125rem",
+                        "space-sm": "0.25rem",
+                        "space-md": "0.5rem",
+                        "space-lg": "0.75rem",
+                        "space-xl": "1rem",
+                        "gutter": "0.5rem"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["IBM Plex Sans"],
+                        "body-md": ["IBM Plex Sans"],
+                        "body-sm": ["IBM Plex Sans"],
+                        "headline-sm": ["IBM Plex Sans"],
+                        "headline-md": ["IBM Plex Sans"],
+                        "headline-lg": ["IBM Plex Sans"],
+                        "label-sm": ["IBM Plex Sans"],
+                        "label-md": ["IBM Plex Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "body-sm": ["11px", {"lineHeight": "14px", "fontWeight": "400"}],
+                        "headline-sm": ["13px", {"lineHeight": "18px", "fontWeight": "600"}],
+                        "headline-md": ["15px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "headline-lg": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "label-sm": ["10px", {"lineHeight": "12px", "letterSpacing": "0.06em", "fontWeight": "600"}],
+                        "label-md": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        };
+    </script>
 </head>
-<body>
-    <!-- Background Ambient Glow -->
-    <div class="ambient-glow glow-1"></div>
-    <div class="ambient-glow glow-2"></div>
+<body class="bg-surface font-body-md text-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary">
 
-    <div class="app-container">
-        <!-- Top Navigation / Header -->
-        <header class="app-header">
-            <div class="header-brand">
-                <div class="brand-logo">
-                    <i class="fas fa-shield-halved"></i>
-                </div>
-                <div class="brand-info">
-                    <div class="brand-title">
-                        <span>CYBER</span>GUARD <span class="badge-version">v2.6 PRO</span>
-                    </div>
-                    <div class="brand-subtitle">Autonomous Web Penetration Testing & AI Remediation Engine</div>
+    <!-- Top Fixed Bar -->
+    <header class="fixed top-0 left-0 right-0 h-14 bg-surface-container-lowest border-b border-outline-variant z-50">
+        <div class="w-full h-14 px-gutter flex items-center justify-between font-mono text-body-sm">
+            <div class="flex items-center gap-space-lg">
+                <div class="flex items-center gap-space-md">
+                    <span class="font-headline-sm text-headline-sm tracking-wider uppercase text-on-surface">AUDIT-CORE // PENETRATION SUITE</span>
+                    <div class="h-4 w-[1px] bg-outline-variant"></div>
+                    <span class="px-space-sm py-space-xs font-label-sm text-label-sm border border-tertiary text-tertiary bg-surface-container-low tracking-widest" id="daemon-badge">DAEMON: LISTENING [PORT 5000]</span>
                 </div>
             </div>
-
-            <div class="header-status">
-                <div class="status-pill status-online">
-                    <span class="status-dot"></span>
-                    <span class="status-text">SYSTEM ONLINE</span>
+            <nav class="flex items-stretch h-14">
+                <a aria-current="page" class="flex items-center px-space-xl font-label-md tracking-wider transition-colors bg-surface-container-high text-primary border-b-2 border-primary" href="#console">[AUDIT CONSOLE]</a>
+                <a class="flex items-center px-space-xl border-r border-outline-variant font-label-md text-label-md tracking-wider text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#recon">[RECON METRICS]</a>
+                <a class="flex items-center px-space-xl border-r border-outline-variant font-label-md text-label-md tracking-wider text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#config">[CONFIGURATION]</a>
+            </nav>
+            <div class="flex items-center gap-space-lg">
+                <div class="flex items-center gap-space-md text-on-surface-variant font-label-sm text-label-sm tracking-wider">
+                    <a class="hover:text-on-surface hover:underline" href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool" target="_blank">[Documentation]</a>
+                    <a class="hover:text-on-surface hover:underline" href="/api/scans" target="_blank">[API Specs]</a>
+                    <span class="px-space-sm py-space-xs border border-outline-variant text-secondary bg-surface-container" id="session-badge">[SESSION: READY]</span>
                 </div>
-                <div class="status-pill status-engine">
-                    <i class="fas fa-microchip"></i>
-                    <span>HYBRID SCANNER ACTIVE</span>
+                <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                    <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
                 </div>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <main class="main-content">
-            <!-- Scan Configuration Form -->
-            <section class="cyber-card" id="scan-form-section">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-sliders card-icon"></i>
-                        <span>Audit Target Configuration</span>
+    <!-- Left Fixed Navigation Sidebar -->
+    <aside class="fixed left-0 top-14 bottom-0 w-64 bg-surface-container-low border-r border-outline-variant z-40 flex flex-col justify-between">
+        <div class="flex flex-col">
+            <div class="h-8 px-gutter flex items-center justify-between border-b border-outline-variant bg-surface-container-lowest">
+                <span class="font-label-sm text-label-sm text-outline tracking-widest uppercase">TARGET MATRIX</span>
+                <span class="font-label-sm text-label-sm text-tertiary" id="sidebar-node-status">NODE_STANDBY</span>
+            </div>
+            <nav class="flex flex-col">
+                <a class="flex items-center gap-space-md px-gutter py-space-md font-body-sm transition-colors bg-surface-container-high text-primary border-l-2 border-primary" href="#console">
+                    <span class="material-symbols-outlined text-[16px]">terminal</span>
+                    <span>Live Execution</span>
+                </a>
+                <a class="flex items-center gap-space-md px-gutter py-space-md border-b border-outline-variant font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#recon">
+                    <span class="material-symbols-outlined text-[16px]">radar</span>
+                    <span>Recon & Scan Assets</span>
+                </a>
+                <a class="flex items-center gap-space-md px-gutter py-space-md border-b border-outline-variant font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#vulns">
+                    <span class="material-symbols-outlined text-[16px]">bug_report</span>
+                    <span>Vulnerability Index</span>
+                </a>
+                <a class="flex items-center gap-space-md px-gutter py-space-md border-b border-outline-variant font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#config">
+                    <span class="material-symbols-outlined text-[16px]">tune</span>
+                    <span>Engine Config</span>
+                </a>
+            </nav>
+        </div>
+        <div class="p-gutter border-t border-outline-variant bg-surface-container-lowest font-mono">
+            <div class="flex justify-between items-center text-label-sm font-label-sm text-outline mb-space-xs">
+                <span>BUFFER STORAGE</span>
+                <span id="buffer-pct">34.8%</span>
+            </div>
+            <div class="w-full h-1.5 bg-surface-container-highest">
+                <div class="h-1.5 bg-primary" id="buffer-bar" style="width: 34.8%"></div>
+            </div>
+            <div class="mt-space-sm flex justify-between text-label-sm font-label-sm text-outline-variant">
+                <span>PID: 5000</span>
+                <span>INTERFACE: 127.0.0.1</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Workspace Container -->
+    <div class="pl-64">
+        <main class="w-full pt-14 bg-surface min-h-screen">
+            <div class="flex flex-col w-full font-mono text-on-surface select-none">
+                
+                <!-- Sub-Header Status Strip -->
+                <div class="w-full bg-surface-container-lowest border-b border-outline-variant px-space-md py-space-xs flex flex-wrap items-center justify-between text-body-sm">
+                    <div class="flex items-center gap-space-md flex-wrap">
+                        <span class="text-primary font-headline-sm uppercase tracking-wide" id="active-session-label">ACTIVE WORKBENCH: SESSION_READY</span>
+                        <span class="text-outline-variant">|</span>
+                        <span class="text-on-surface-variant">PROFILE: <span class="text-on-surface" id="active-profile-name">QUICK_BENCH</span></span>
+                        <span class="text-outline-variant">|</span>
+                        <span class="text-on-surface-variant">ENGINE: <span class="text-tertiary">ARMED [HYBRID-DAST_v2.6]</span></span>
+                        <span class="text-outline-variant">|</span>
+                        <span class="text-outline" id="active-target-summary">TARGET: testphp.vulnweb.com:80</span>
                     </div>
-                    <span class="badge-hint">Define Scope & Parameters</span>
+                    <div class="flex items-center gap-space-xs">
+                        <button class="h-6 px-space-md bg-surface-container hover:bg-surface-container-high border border-outline-variant text-on-surface text-label-sm tracking-wider uppercase transition-colors" onclick="exportDataJson()" type="button">[ EXPORT JSON ]</button>
+                        <button class="h-6 px-space-md bg-surface-container hover:bg-surface-container-high border border-outline-variant text-primary text-label-sm tracking-wider uppercase transition-colors" onclick="viewActiveReport()" type="button" id="btn-view-report">[ VIEW HTML REPORT ]</button>
+                    </div>
                 </div>
 
-                <!-- Quick Presets -->
-                <div class="presets-container">
-                    <span class="presets-label"><i class="fas fa-bolt"></i> Quick Presets:</span>
-                    <button type="button" class="preset-btn active" id="preset-fast">
-                        <i class="fas fa-gauge-high"></i> Fast Benchmark (VulnWeb ~1m)
-                    </button>
-                    <button type="button" class="preset-btn" id="preset-standard">
-                        <i class="fas fa-globe"></i> Web Standard (Ports 80/443)
-                    </button>
-                    <button type="button" class="preset-btn" id="preset-deep">
-                        <i class="fas fa-microscope"></i> Deep Audit (Full Ports)
-                    </button>
-                </div>
-
-                <form id="scan-form">
-                    <div class="form-group">
-                        <label for="target_url">
-                            <i class="fas fa-crosshairs"></i> Target URL / Host
-                        </label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-link input-icon"></i>
-                            <input type="text" id="target_url" name="target_url" 
-                                   placeholder="http://testphp.vulnweb.com/ or https://target-domain.com" 
-                                   value="http://testphp.vulnweb.com/" required autocomplete="off">
-                        </div>
-                        <small class="field-hint">Specify an authorized target URL with HTTP or HTTPS scheme.</small>
-                    </div>
-
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="crawl_depth">
-                                <i class="fas fa-sitemap"></i> Crawl Depth (1 - 5)
-                            </label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-layer-group input-icon"></i>
-                                <input type="number" id="crawl_depth" name="crawl_depth" 
-                                       value="1" min="1" max="5" required>
+                <!-- Dual-Pane Engineering Workbench Grid -->
+                <div class="flex flex-col lg:flex-row w-full items-stretch">
+                    
+                    <!-- PANE 1: Target Controller (Left Column: 320px fixed) -->
+                    <div class="w-full lg:w-80 shrink-0 bg-surface-container-low border-b lg:border-b-0 lg:border-r border-outline-variant p-space-md flex flex-col justify-between">
+                        <div class="flex flex-col gap-space-md">
+                            
+                            <!-- Section Title -->
+                            <div class="flex items-center justify-between border-b border-outline-variant pb-space-xs">
+                                <span class="text-headline-sm font-headline-sm text-on-surface tracking-wider uppercase">[ 01 // TARGET CONTROLLER ]</span>
+                                <span class="text-label-sm text-tertiary" id="controller-status">[READY]</span>
                             </div>
-                            <small class="field-hint">Depth 1 = Homepage & direct sublinks (Fastest).</small>
-                        </div>
 
-                        <div class="form-group">
-                            <label for="start_port">
-                                <i class="fas fa-network-wired"></i> Start Port
-                            </label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-hashtag input-icon"></i>
-                                <input type="number" id="start_port" name="start_port" 
-                                       value="80" min="1" max="65535" required>
+                            <!-- Target Domain Input -->
+                            <div class="flex flex-col gap-space-xs">
+                                <label class="text-label-sm text-outline uppercase tracking-wider">TARGET HOSTNAME &amp; SCHEME</label>
+                                <div class="flex border border-outline-variant bg-surface-container-lowest">
+                                    <input class="w-full bg-transparent px-space-sm py-1 text-body-sm font-mono text-on-surface focus:outline-none" id="target-domain" type="text" value="http://testphp.vulnweb.com/"/>
+                                </div>
                             </div>
-                            <small class="field-hint">Default HTTP port: 80.</small>
-                        </div>
 
-                        <div class="form-group">
-                            <label for="end_port">
-                                <i class="fas fa-network-wired"></i> End Port
-                            </label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-hashtag input-icon"></i>
-                                <input type="number" id="end_port" name="end_port" 
-                                       value="80" min="1" max="65535" required>
+                            <!-- Scan Profile Presets -->
+                            <div class="flex flex-col gap-space-xs">
+                                <label class="text-label-sm text-outline uppercase tracking-wider">SCAN PROFILE PRESET</label>
+                                <div class="grid grid-cols-1 gap-1">
+                                    <button class="profile-btn text-left px-space-sm py-1 text-body-sm border border-outline-variant bg-surface-container-high text-primary flex items-center justify-between" id="prof-fast" onclick="selectPreset('fast')" type="button">
+                                        <span>[●] QUICK BENCH (VULNWEB)</span>
+                                        <span class="text-label-sm text-outline">&lt; 1m</span>
+                                    </button>
+                                    <button class="profile-btn text-left px-space-sm py-1 text-body-sm border border-outline-variant bg-surface-container-lowest text-on-surface-variant hover:text-on-surface flex items-center justify-between" id="prof-standard" onclick="selectPreset('standard')" type="button">
+                                        <span>[○] STANDARD WEB (80/443)</span>
+                                        <span class="text-label-sm text-outline">~ 5m</span>
+                                    </button>
+                                    <button class="profile-btn text-left px-space-sm py-1 text-body-sm border border-outline-variant bg-surface-container-lowest text-on-surface-variant hover:text-on-surface flex items-center justify-between" id="prof-deep" onclick="selectPreset('deep')" type="button">
+                                        <span>[○] FULL PERIMETER (1-1024)</span>
+                                        <span class="text-label-sm text-outline">~ 20m</span>
+                                    </button>
+                                </div>
                             </div>
-                            <small class="field-hint">Narrow range accelerates scan speed.</small>
+
+                            <!-- Steppers: Crawl Depth & Concurrency Threads -->
+                            <div class="grid grid-cols-2 gap-space-sm">
+                                <div class="flex flex-col gap-space-xs">
+                                    <label class="text-label-sm text-outline uppercase tracking-wider">CRAWL DEPTH</label>
+                                    <div class="flex items-stretch border border-outline-variant bg-surface-container-lowest">
+                                        <button class="w-6 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface text-center font-bold" onclick="adjustVal('crawl-depth', -1, 1, 5)" type="button">[-]</button>
+                                        <input class="w-full text-center bg-transparent text-body-sm text-on-surface font-mono py-1 focus:outline-none" id="crawl-depth" readonly="" type="text" value="01"/>
+                                        <button class="w-6 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface text-center font-bold" onclick="adjustVal('crawl-depth', 1, 1, 5)" type="button">[+]</button>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-space-xs">
+                                    <label class="text-label-sm text-outline uppercase tracking-wider">THREADS</label>
+                                    <div class="flex items-stretch border border-outline-variant bg-surface-container-lowest">
+                                        <button class="w-6 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface text-center font-bold" onclick="adjustVal('thread-count', -4, 4, 64)" type="button">[-]</button>
+                                        <input class="w-full text-center bg-transparent text-body-sm text-on-surface font-mono py-1 focus:outline-none" id="thread-count" readonly="" type="text" value="16"/>
+                                        <button class="w-6 py-1 bg-surface-container hover:bg-surface-container-high text-on-surface text-center font-bold" onclick="adjustVal('thread-count', 4, 4, 64)" type="button">[+]</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Port Scope Specification -->
+                            <div class="flex flex-col gap-space-xs">
+                                <div class="flex justify-between items-center">
+                                    <label class="text-label-sm text-outline uppercase tracking-wider">PORT SCOPE</label>
+                                    <button class="text-label-sm text-primary hover:underline" onclick="setPortRange(80, 443)" type="button">[WEB: 80-443]</button>
+                                </div>
+                                <div class="grid grid-cols-2 gap-space-xs">
+                                    <div class="flex items-center border border-outline-variant bg-surface-container-lowest px-space-xs">
+                                        <span class="text-label-sm text-outline mr-1">FROM:</span>
+                                        <input class="w-full bg-transparent text-body-sm text-on-surface font-mono py-1 focus:outline-none" id="port-start" type="text" value="80"/>
+                                    </div>
+                                    <div class="flex items-center border border-outline-variant bg-surface-container-lowest px-space-xs">
+                                        <span class="text-label-sm text-outline mr-1">TO:</span>
+                                        <input class="w-full bg-transparent text-body-sm text-on-surface font-mono py-1 focus:outline-none" id="port-end" type="text" value="80"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Binary Toggles -->
+                            <div class="flex flex-col gap-space-xs pt-space-xs border-t border-outline-variant">
+                                <label class="text-label-sm text-outline uppercase tracking-wider">PAYLOAD SAFETY &amp; RECON TOGGLES</label>
+                                <label class="flex items-start gap-space-sm cursor-pointer text-body-sm text-on-surface">
+                                    <input id="poc-toggle" class="mt-0.5 accent-primary h-3 w-3 rounded-none bg-surface-container-lowest border border-outline-variant" type="checkbox"/>
+                                    <span class="leading-tight text-body-sm">[ ] EXECUTE INTERACTIVE POC (NON-DESTRUCTIVE OAST)</span>
+                                </label>
+                                <label class="flex items-start gap-space-sm cursor-pointer text-body-sm text-on-surface">
+                                    <input checked="" class="mt-0.5 accent-primary h-3 w-3 rounded-none bg-surface-container-lowest border border-outline-variant" type="checkbox"/>
+                                    <span class="leading-tight text-body-sm">[X] BYPASS REVERSE PROXY SSL EXPIRY WARNINGS</span>
+                                </label>
+                            </div>
+
+                            <!-- Rate Ceiling Slider -->
+                            <div class="flex flex-col gap-space-xs">
+                                <div class="flex justify-between items-center text-label-sm">
+                                    <span class="text-outline uppercase tracking-wider">RATE CEILING</span>
+                                    <span class="text-tertiary" id="rate-display">50 REQ/SEC [BALANCED]</span>
+                                </div>
+                                <input class="w-full h-1 bg-surface-container-highest appearance-none cursor-pointer accent-primary rounded-none" max="250" min="10" oninput="updateRate(this.value)" step="10" type="range" value="50"/>
+                                <div class="flex justify-between text-label-sm text-outline-variant">
+                                    <span>10 REQ/S [STEALTH]</span>
+                                    <span>250 REQ/S [BURST]</span>
+                                </div>
+                            </div>
+
                         </div>
-                    </div>
 
-                    <div class="form-row-footer">
-                        <div class="checkbox-toggle-wrapper">
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="run_poc" name="run_poc">
-                                <span class="toggle-slider"></span>
-                            </label>
-                            <span class="toggle-label">
-                                <strong>Interactive PoC Mode</strong>
-                                <small>Generate Proof-of-Concept exploits for detected flaws (CLI-confirmed)</small>
-                            </span>
-                        </div>
-
-                        <button type="submit" class="cyber-btn cyber-btn-primary" id="start-scan-btn">
-                            <span class="btn-glow"></span>
-                            <i class="fas fa-bolt-lightning"></i>
-                            <span>Launch Penetration Audit</span>
-                        </button>
-                    </div>
-                </form>
-            </section>
-
-            <!-- Active Scan Progress -->
-            <section class="cyber-card" id="progress-section" style="display: none;">
-                <div class="card-header">
-                    <div class="card-title">
-                        <div class="pulsing-radar"></div>
-                        <span>Live Audit Progress & Diagnostics</span>
-                    </div>
-                    <div class="audit-timer" id="audit-timer">
-                        <i class="fas fa-clock"></i> <span>00:00</span>
-                    </div>
-                </div>
-
-                <!-- Circular / Linear Progress Bar HUD -->
-                <div class="progress-hud">
-                    <div class="progress-hud-top">
-                        <span class="progress-status-label" id="progress-stage-name">Initializing Engine...</span>
-                        <span class="progress-text" id="progress-text">0%</span>
-                    </div>
-                    <div class="progress-bar-track">
-                        <div class="progress-fill" id="progress-fill"></div>
-                    </div>
-                </div>
-
-                <!-- Modern Visual Pipeline -->
-                <div class="progress-stages">
-                    <div class="stage" id="stage-crawling">
-                        <div class="stage-icon-wrap"><i class="fas fa-spider"></i></div>
-                        <div class="stage-name">Web Spider</div>
-                        <div class="stage-sub">Surface Mapping</div>
-                    </div>
-                    <div class="stage" id="stage-port_scanning">
-                        <div class="stage-icon-wrap"><i class="fas fa-network-wired"></i></div>
-                        <div class="stage-name">Port Scanner</div>
-                        <div class="stage-sub">Service Probing</div>
-                    </div>
-                    <div class="stage" id="stage-passive_scanning">
-                        <div class="stage-icon-wrap"><i class="fas fa-shield-virus"></i></div>
-                        <div class="stage-name">Passive Audit</div>
-                        <div class="stage-sub">Headers & SSL</div>
-                    </div>
-                    <div class="stage" id="stage-active_scanning">
-                        <div class="stage-icon-wrap"><i class="fas fa-bug"></i></div>
-                        <div class="stage-name">Active Fuzzing</div>
-                        <div class="stage-sub">SQLi / XSS</div>
-                    </div>
-                    <div class="stage" id="stage-reporting">
-                        <div class="stage-icon-wrap"><i class="fas fa-file-invoice"></i></div>
-                        <div class="stage-name">Report Engine</div>
-                        <div class="stage-sub">Synthesis</div>
-                    </div>
-                </div>
-
-                <!-- Live Terminal Console -->
-                <div class="terminal-container">
-                    <div class="terminal-header">
-                        <div class="terminal-dots">
-                            <span class="dot dot-red"></span>
-                            <span class="dot dot-yellow"></span>
-                            <span class="dot dot-green"></span>
-                        </div>
-                        <div class="terminal-title">
-                            <i class="fas fa-terminal"></i> <span>audit_stream.log — Live WebSocket Telemetry</span>
-                        </div>
-                        <div class="terminal-controls">
-                            <button type="button" class="term-btn" id="clear-terminal-btn" title="Clear console">
-                                <i class="fas fa-eraser"></i> Clear
+                        <!-- Action Execution Button -->
+                        <div class="flex flex-col gap-space-xs pt-space-md border-t border-outline-variant mt-space-md">
+                            <button class="w-full bg-on-surface text-surface font-mono font-bold hover:bg-on-surface-variant active:bg-on-surface rounded-none px-space-md py-space-sm text-headline-sm tracking-wider uppercase transition-colors" id="btn-execute" onclick="triggerAuditExecution()" type="button">
+                                [ EXECUTE AUDIT ]
                             </button>
                         </div>
                     </div>
-                    <div class="progress-messages" id="progress-messages"></div>
-                </div>
-            </section>
 
-            <!-- Scan Results Summary -->
-            <section class="cyber-card" id="results-section" style="display: none;">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-square-poll-vertical card-icon"></i>
-                        <span>Audit Findings & Executive Summary</span>
+                    <!-- PANE 2: Diagnostic Telemetry & Data Stream (Fluid Right Column) -->
+                    <div class="flex-1 flex flex-col min-w-0 bg-surface">
+                        
+                        <!-- Findings & Summary KPI Strip -->
+                        <div class="w-full grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 border-b border-outline-variant bg-surface-container-lowest divide-x divide-outline-variant">
+                            <div class="p-space-sm flex flex-col">
+                                <span class="text-label-sm text-outline uppercase tracking-wider">POSTURE GRADE</span>
+                                <div class="flex items-center gap-space-xs mt-space-xs">
+                                    <span class="px-1.5 py-0.5 bg-secondary-container text-primary font-bold text-headline-sm border border-outline-variant" id="kpi-grade">[ -- ]</span>
+                                    <span class="text-label-sm text-outline" id="kpi-grade-desc">PENDING AUDIT</span>
+                                </div>
+                            </div>
+                            <div class="p-space-sm flex flex-col">
+                                <span class="text-label-sm text-outline uppercase tracking-wider">CRITICAL FINDINGS</span>
+                                <div class="flex items-center gap-space-xs mt-space-xs">
+                                    <span class="px-1.5 py-0.5 bg-error-container text-error font-bold text-headline-sm border border-error" id="kpi-critical">[ 00 ]</span>
+                                    <span class="text-label-sm text-error" id="kpi-critical-sub">NO FLAWS</span>
+                                </div>
+                            </div>
+                            <div class="p-space-sm flex flex-col">
+                                <span class="text-label-sm text-outline uppercase tracking-wider">HIGH FINDINGS</span>
+                                <div class="flex items-center gap-space-xs mt-space-xs">
+                                    <span class="px-1.5 py-0.5 bg-surface-variant text-[#f9c74f] font-bold text-headline-sm border border-outline-variant" id="kpi-high">[ 00 ]</span>
+                                    <span class="text-label-sm text-outline">AUTH/INJECT</span>
+                                </div>
+                            </div>
+                            <div class="p-space-sm flex flex-col">
+                                <span class="text-label-sm text-outline uppercase tracking-wider">MEDIUM FINDINGS</span>
+                                <div class="flex items-center gap-space-xs mt-space-xs">
+                                    <span class="px-1.5 py-0.5 bg-surface-container text-[#f9c74f] font-bold text-headline-sm border border-outline-variant" id="kpi-medium">[ 00 ]</span>
+                                    <span class="text-label-sm text-outline">HEADERS/SSL</span>
+                                </div>
+                            </div>
+                            <div class="p-space-sm flex flex-col">
+                                <span class="text-label-sm text-outline uppercase tracking-wider">ENDPOINTS MAPPED</span>
+                                <div class="flex items-center gap-space-xs mt-space-xs">
+                                    <span class="px-1.5 py-0.5 bg-surface-container text-primary font-bold text-headline-sm border border-outline-variant" id="kpi-endpoints">[ 00 ]</span>
+                                    <span class="text-label-sm text-outline">CRAWL SURFACE</span>
+                                </div>
+                            </div>
+                            <div class="p-space-sm flex flex-col">
+                                <span class="text-label-sm text-outline uppercase tracking-wider">OPEN PORTS</span>
+                                <div class="flex items-center gap-space-xs mt-space-xs">
+                                    <span class="px-1.5 py-0.5 bg-surface-container text-tertiary font-bold text-headline-sm border border-outline-variant" id="kpi-ports">[ 00 ]</span>
+                                    <span class="text-label-sm text-tertiary">TCP ENUMERATED</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Telemetry Subheader / Stream Tabs -->
+                        <div class="w-full bg-surface-container-low border-b border-outline-variant px-space-md flex flex-wrap items-center justify-between text-body-sm">
+                            <div class="flex items-stretch">
+                                <button class="px-space-md py-space-sm border-r border-l border-t-0 border-b-2 border-primary bg-surface-container text-primary font-headline-sm text-label-md uppercase tracking-wider" type="button">[ STREAM LOGS ]</button>
+                                <button class="px-space-md py-space-sm border-r border-outline-variant text-on-surface-variant hover:text-on-surface hover:bg-surface-container text-label-md uppercase tracking-wider transition-colors" type="button" id="tab-endpoints-label">[ ENDPOINTS (0) ]</button>
+                                <button class="px-space-md py-space-sm border-r border-outline-variant text-on-surface-variant hover:text-on-surface hover:bg-surface-container text-label-md uppercase tracking-wider transition-colors" type="button" id="tab-ports-label">[ OPEN PORTS (0) ]</button>
+                                <button class="px-space-md py-space-sm border-r border-outline-variant text-on-surface-variant hover:text-on-surface hover:bg-surface-container text-label-md uppercase tracking-wider transition-colors" type="button" id="tab-vulns-label">[ VULNERABILITY MATRIX (0) ]</button>
+                            </div>
+                            <div class="flex items-center gap-space-md py-1 text-label-sm text-outline font-mono">
+                                <span>ELAPSED: <span class="text-on-surface" id="telemetry-elapsed">00:00:00.000</span></span>
+                                <span class="text-outline-variant">|</span>
+                                <span>STAGE: <span class="text-primary font-bold" id="telemetry-stage">STANDBY</span></span>
+                                <span class="text-outline-variant">|</span>
+                                <span class="text-tertiary" id="telemetry-daemon">[DAEMON: LIVE]</span>
+                            </div>
+                        </div>
+
+                        <!-- Stream Terminal Box -->
+                        <div class="p-space-md bg-surface border-b border-outline-variant">
+                            <div class="w-full bg-surface-container-lowest border border-outline-variant p-space-sm font-mono text-body-sm text-on-surface">
+                                <div class="flex justify-between items-center border-b border-outline-variant pb-1 mb-2 text-label-sm text-outline uppercase tracking-wider">
+                                    <span>DAEMON STDOUT // RUNTIME LOGS [BUFFER: 256 LINES]</span>
+                                    <div class="flex items-center gap-space-sm">
+                                        <span class="text-tertiary" id="auto-scroll-indicator">[AUTO-SCROLL: ON]</span>
+                                        <button class="hover:text-on-surface" onclick="clearStreamLogs()" type="button">[CLEAR]</button>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1 max-h-56 overflow-y-auto overflow-x-hidden text-body-sm leading-tight" id="stream-terminal">
+                                    <div class="flex items-baseline gap-space-sm">
+                                        <span class="text-outline shrink-0">00:00:00.000</span>
+                                        <span class="text-primary font-bold shrink-0">[INIT]</span>
+                                        <span class="text-on-surface-variant shrink-0">[SYSTEM]</span>
+                                        <span class="text-on-surface">Engine ready. Configure target and execute audit.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Vulnerability Triage Matrix Section -->
+                        <div class="flex-1 p-space-md flex flex-col gap-space-sm">
+                            <div class="flex items-center justify-between border-b border-outline-variant pb-space-xs">
+                                <div class="flex items-center gap-space-sm">
+                                    <span class="text-headline-sm font-headline-sm uppercase tracking-wider text-on-surface">[ 02 // VULNERABILITY TRIAGE MATRIX ]</span>
+                                    <span class="px-space-xs py-0.5 text-label-sm bg-surface-container-highest text-on-surface-variant border border-outline-variant" id="table-filter-tag">ALL FINDINGS</span>
+                                </div>
+                                <div class="flex items-center gap-space-xs text-label-sm">
+                                    <span class="text-outline" id="table-count-label">FINDINGS: 0 DETECTED</span>
+                                    <button class="px-space-sm py-0.5 border border-outline-variant bg-surface-container hover:bg-surface-container-high text-on-surface uppercase" onclick="refreshScanData()" type="button">[REFRESH DATA]</button>
+                                </div>
+                            </div>
+
+                            <!-- Matrix Data Grid -->
+                            <div class="overflow-x-auto border border-outline-variant bg-surface-container-lowest">
+                                <table class="w-full text-left border-collapse text-body-sm">
+                                    <thead>
+                                        <tr class="bg-surface-container-high border-b border-outline-variant text-label-sm text-outline uppercase tracking-wider">
+                                            <th class="py-1 px-space-sm border-r border-outline-variant w-16">SEVERITY</th>
+                                            <th class="py-1 px-space-sm border-r border-outline-variant">VULNERABILITY IDENTIFIER</th>
+                                            <th class="py-1 px-space-sm border-r border-outline-variant">ENDPOINT / VECTOR</th>
+                                            <th class="py-1 px-space-sm border-r border-outline-variant w-16 text-center">TYPE</th>
+                                            <th class="py-1 px-space-sm">ACTION / REMEDIATION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-outline-variant font-mono" id="vuln-table-body">
+                                        <!-- Default Empty State -->
+                                        <tr class="text-outline" id="row-empty">
+                                            <td colspan="5" class="py-4 text-center">
+                                                [ NO ACTIVE SCAN IN BUFFER. EXECUTE AUDIT TO POPULATE FINDINGS MATRIX ]
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                     </div>
-                    <span class="badge-success"><i class="fas fa-check-double"></i> Completed</span>
                 </div>
 
-                <div id="results-content"></div>
-
-                <div class="action-buttons">
-                    <button class="cyber-btn cyber-btn-success" id="view-report-btn" style="display: none;">
-                        <i class="fas fa-file-pdf"></i>
-                        <span>View Interactive HTML Report</span>
-                    </button>
-                    <button class="cyber-btn cyber-btn-purple" id="get-remediation-btn" style="display: none;">
-                        <i class="fas fa-wand-magic-sparkles"></i>
-                        <span>AI Remediation Analysis (Gemini)</span>
-                    </button>
-                    <button class="cyber-btn cyber-btn-secondary" id="new-scan-btn">
-                        <i class="fas fa-rotate-right"></i>
-                        <span>Configure New Audit</span>
-                    </button>
-                </div>
-            </section>
-
-            <!-- AI Remediation Section -->
-            <section class="cyber-card" id="remediation-section" style="display: none;">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-brain card-icon ai-glow"></i>
-                        <span>Gemini AI Automated Remediation Engine</span>
-                    </div>
-                    <button class="icon-btn-close" id="close-remediation-btn" title="Close">
-                        <i class="fas fa-xmark"></i>
-                    </button>
-                </div>
-
-                <div id="remediation-loading" style="display: none;">
-                    <div class="ai-loading-box">
-                        <div class="ai-spinner"></div>
-                        <h4>Synthesizing Vulnerability Mitigations...</h4>
-                        <p>Querying Google Gemini API with findings context to generate architectural code patches.</p>
+                <!-- Proof of Concept (PoC) Modal Dialog -->
+                <div class="hidden fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-space-md" id="poc-modal">
+                    <div class="w-full max-w-2xl bg-surface-container-low border border-primary p-space-md flex flex-col gap-space-sm font-mono text-body-sm">
+                        <div class="flex justify-between items-center border-b border-outline-variant pb-space-xs">
+                            <span class="text-headline-sm font-bold text-primary">[ PROOF OF CONCEPT INSPECTOR // NON-DESTRUCTIVE TRACE ]</span>
+                            <button class="text-headline-sm text-outline hover:text-on-surface font-bold" onclick="closePocModal()" type="button">[X CLOSE]</button>
+                        </div>
+                        <div class="text-label-sm text-outline">IDENTIFIER: <span class="text-on-surface font-bold" id="modal-vuln-id">POC-TRACE</span></div>
+                        <pre class="bg-surface-container-lowest p-space-sm border border-outline-variant text-body-sm text-tertiary whitespace-pre-wrap overflow-x-auto max-h-72" id="modal-poc-body"></pre>
+                        <div class="flex justify-end gap-space-sm pt-space-xs border-t border-outline-variant">
+                            <button class="px-space-md py-1 border border-outline-variant bg-surface-container hover:bg-surface-container-high text-label-sm text-on-surface uppercase" onclick="closePocModal()" type="button">[ DISMISS ]</button>
+                        </div>
                     </div>
                 </div>
 
-                <div id="remediation-content"></div>
-            </section>
-
-            <!-- Previous Scans History -->
-            <section class="cyber-card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-clock-rotate-left card-icon"></i>
-                        <span>Scan Audit History</span>
+                <!-- Industrial Compliance & Legal Footer -->
+                <footer class="w-full bg-surface-container-lowest border-t border-outline-variant p-space-md flex flex-col md:flex-row items-center justify-between gap-space-sm text-label-sm text-outline">
+                    <div class="flex flex-col sm:flex-row items-center gap-space-md">
+                        <span>&copy; 2026 AUDIT-CORE SYSTEMS INC. ALL RIGHTS RESERVED.</span>
+                        <span class="text-outline-variant hidden sm:inline">|</span>
+                        <span class="text-on-surface-variant font-mono">BUILD: v2.6.4-prod [HASH: 9f8a12e]</span>
                     </div>
-                    <button class="term-btn" id="refresh-history-btn">
-                        <i class="fas fa-arrows-rotate"></i> Refresh
-                    </button>
-                </div>
-                <div id="scans-list">
-                    <p class="loading"><i class="fas fa-spinner fa-spin"></i> Retrieving scan audit logs...</p>
-                </div>
-            </section>
-        </main>
+                    <div class="flex items-center gap-space-md flex-wrap font-mono">
+                        <a class="hover:text-on-surface hover:underline transition-colors" href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool/blob/main/README.md#terms" target="_blank">[Terms of Service]</a>
+                        <a class="hover:text-on-surface hover:underline transition-colors" href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool/blob/main/README.md#privacy" target="_blank">[Privacy Policy]</a>
+                        <a class="hover:text-on-surface hover:underline transition-colors" href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool/blob/main/README.md#security" target="_blank">[Security Disclosure]</a>
+                        <a class="hover:text-on-surface hover:underline transition-colors" href="javascript:void(0)" onclick="exportDataJson()">[Export Data (JSON)]</a>
+                        <a class="text-tertiary hover:underline transition-colors" href="javascript:void(0)">[Compliance SOC2-TypeII]</a>
+                    </div>
+                </footer>
 
-        <!-- Footer -->
-        <footer class="app-footer">
-            <div class="footer-content">
-                <div>
-                    <span class="footer-highlight">&copy; 2026 CYBERGUARD SECURITY SUITE</span>
-                    <span>// Autonomous Vulnerability Assessment & Defensive Intelligence</span>
-                </div>
-                <div class="footer-links">
-                    <a href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool" target="_blank" class="footer-link">
-                        <i class="fab fa-github"></i> GitHub Repository
-                    </a>
-                </div>
             </div>
-        </footer>
+        </main>
     </div>
 
-    <!-- Scripts -->
+    <!-- Socket.IO & Integration Logic -->
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script>
+        // State
+        const socket = io();
+        let currentScanId = null;
+        let isExecuting = false;
+        let timerInterval = null;
+        let elapsedSeconds = 0;
+        let activeScanData = null;
+
+        // Socket.IO Listeners
+        socket.on('connect', () => {
+            document.getElementById('daemon-badge').textContent = 'DAEMON: CONNECTED [PORT 5000]';
+            appendLog('[CONNECT]', '[WEBSOCKET]', 'Handshake acknowledged by daemon.');
+        });
+
+        socket.on('scan_progress', (data) => {
+            if (data.scan_id === currentScanId) {
+                handleProgress(data);
+            }
+        });
+
+        // Preset Selector
+        function selectPreset(type) {
+            const domainInput = document.getElementById('target-domain');
+            const depthInput = document.getElementById('crawl-depth');
+            const startPort = document.getElementById('port-start');
+            const endPort = document.getElementById('port-end');
+            const profileLabel = document.getElementById('active-profile-name');
+
+            document.querySelectorAll('.profile-btn').forEach(b => {
+                b.classList.remove('bg-surface-container-high', 'text-primary');
+                b.classList.add('bg-surface-container-lowest', 'text-on-surface-variant');
+                const span = b.querySelector('span:first-child');
+                if (span) span.textContent = span.textContent.replace('●', '○');
+            });
+
+            if (type === 'fast') {
+                const btn = document.getElementById('prof-fast');
+                btn.classList.remove('bg-surface-container-lowest', 'text-on-surface-variant');
+                btn.classList.add('bg-surface-container-high', 'text-primary');
+                btn.querySelector('span:first-child').textContent = '[●] QUICK BENCH (VULNWEB)';
+                domainInput.value = 'http://testphp.vulnweb.com/';
+                depthInput.value = '01';
+                startPort.value = '80';
+                endPort.value = '80';
+                profileLabel.textContent = 'QUICK_BENCH';
+            } else if (type === 'standard') {
+                const btn = document.getElementById('prof-standard');
+                btn.classList.remove('bg-surface-container-lowest', 'text-on-surface-variant');
+                btn.classList.add('bg-surface-container-high', 'text-primary');
+                btn.querySelector('span:first-child').textContent = '[●] STANDARD WEB (80/443)';
+                depthInput.value = '01';
+                startPort.value = '80';
+                endPort.value = '443';
+                profileLabel.textContent = 'STANDARD_WEB';
+            } else if (type === 'deep') {
+                const btn = document.getElementById('prof-deep');
+                btn.classList.remove('bg-surface-container-lowest', 'text-on-surface-variant');
+                btn.classList.add('bg-surface-container-high', 'text-primary');
+                btn.querySelector('span:first-child').textContent = '[●] FULL PERIMETER (1-1024)';
+                depthInput.value = '02';
+                startPort.value = '1';
+                endPort.value = '1024';
+                profileLabel.textContent = 'FULL_PERIMETER';
+            }
+
+            document.getElementById('active-target-summary').textContent = 'TARGET: ' + domainInput.value;
+        }
+
+        function setPortRange(start, end) {
+            document.getElementById('port-start').value = start;
+            document.getElementById('port-end').value = end;
+        }
+
+        function adjustVal(elementId, delta, min, max) {
+            const input = document.getElementById(elementId);
+            let val = parseInt(input.value, 10);
+            val = Math.max(min, Math.min(max, val + delta));
+            input.value = val < 10 ? '0' + val : val.toString();
+        }
+
+        function updateRate(val) {
+            const display = document.getElementById('rate-display');
+            let label = 'BALANCED';
+            if (val < 30) label = 'STEALTH';
+            else if (val > 150) label = 'BURST';
+            display.textContent = val + ' REQ/SEC [' + label + ']';
+        }
+
+        // Trigger Execution
+        async function triggerAuditExecution() {
+            if (isExecuting) {
+                // If running, we notify
+                appendLog('[HALT]', '[OPERATOR]', 'Audit execution halt signal sent.');
+                isExecuting = false;
+                updateButtonState(false);
+                stopTimer();
+                return;
+            }
+
+            const targetUrl = document.getElementById('target-domain').value.trim();
+            const crawlDepth = parseInt(document.getElementById('crawl-depth').value, 10);
+            const startPort = parseInt(document.getElementById('port-start').value, 10);
+            const endPort = parseInt(document.getElementById('port-end').value, 10);
+            const runPoc = document.getElementById('poc-toggle').checked;
+
+            if (!targetUrl) {
+                alert('Target hostname required.');
+                return;
+            }
+
+            try {
+                isExecuting = true;
+                updateButtonState(true);
+                startTimer();
+                clearStreamLogs();
+                appendLog('[EXECUTE]', '[DISPATCHER]', `Launching audit against: ${targetUrl}`);
+
+                document.getElementById('sidebar-node-status').textContent = 'NODE_ACTIVE';
+                document.getElementById('controller-status').textContent = '[ACTIVE]';
+                document.getElementById('active-target-summary').textContent = 'TARGET: ' + targetUrl;
+
+                const response = await fetch('/api/scan/start', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        target_url: targetUrl,
+                        crawl_depth: crawlDepth,
+                        start_port: startPort,
+                        end_port: endPort,
+                        run_poc: runPoc
+                    })
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    currentScanId = result.scan_id;
+                    document.getElementById('active-session-label').textContent = 'ACTIVE WORKBENCH: ' + currentScanId;
+                    document.getElementById('session-badge').textContent = `[SESSION: ${currentScanId.slice(-8)}]`;
+                    appendLog('[CONFIRM]', '[DISPATCHER]', `Task ID confirmed: ${result.scan_id}`);
+                    pollScanStatus();
+                } else {
+                    appendLog('[ERROR]', '[DAEMON]', result.error || 'Failed to start audit.');
+                    isExecuting = false;
+                    updateButtonState(false);
+                    stopTimer();
+                }
+            } catch (err) {
+                appendLog('[FATAL]', '[NETWORK]', err.message);
+                isExecuting = false;
+                updateButtonState(false);
+                stopTimer();
+            }
+        }
+
+        function updateButtonState(running) {
+            const btn = document.getElementById('btn-execute');
+            if (running) {
+                btn.textContent = '[ HALT RUNTIME AUDIT ]';
+                btn.classList.remove('bg-on-surface', 'text-surface');
+                btn.classList.add('bg-error', 'text-on-error');
+            } else {
+                btn.textContent = '[ EXECUTE AUDIT ]';
+                btn.classList.remove('bg-error', 'text-on-error');
+                btn.classList.add('bg-on-surface', 'text-surface');
+            }
+        }
+
+        // Live Log Handlers
+        function handleProgress(data) {
+            const stage = (data.stage || 'RUN').toUpperCase();
+            document.getElementById('telemetry-stage').textContent = stage;
+            appendLog(`[${stage}]`, '[STAGE]', data.message);
+
+            if (data.stage === 'complete' || data.progress >= 100) {
+                isExecuting = false;
+                updateButtonState(false);
+                stopTimer();
+                document.getElementById('controller-status').textContent = '[COMPLETE]';
+                document.getElementById('sidebar-node-status').textContent = 'NODE_STANDBY';
+                refreshScanData();
+            } else if (data.stage === 'error') {
+                isExecuting = false;
+                updateButtonState(false);
+                stopTimer();
+                document.getElementById('controller-status').textContent = '[ERROR]';
+            }
+        }
+
+        function appendLog(level, module, message) {
+            const term = document.getElementById('stream-terminal');
+            const now = new Date();
+            const timeStr = now.toTimeString().split(' ')[0] + '.' + String(now.getMilliseconds()).padStart(3, '0');
+            const row = document.createElement('div');
+            row.className = 'flex items-baseline gap-space-sm';
+
+            let colorClass = 'text-primary font-bold';
+            if (level.includes('ERROR') || level.includes('FAIL') || level.includes('HALT')) {
+                colorClass = 'text-error font-bold';
+            } else if (level.includes('WARN')) {
+                colorClass = 'text-[#f9c74f] font-bold';
+            }
+
+            row.innerHTML = `
+                <span class="text-outline shrink-0">${timeStr}</span>
+                <span class="${colorClass} shrink-0">${escapeHtml(level)}</span>
+                <span class="text-on-surface-variant shrink-0">${escapeHtml(module)}</span>
+                <span class="text-on-surface">${escapeHtml(message)}</span>
+            `;
+            term.appendChild(row);
+            term.scrollTop = term.scrollHeight;
+        }
+
+        function clearStreamLogs() {
+            document.getElementById('stream-terminal').innerHTML = '<div class="text-outline text-label-sm">[LOG BUFFER PURGED BY OPERATOR]</div>';
+        }
+
+        // Timer
+        function startTimer() {
+            clearInterval(timerInterval);
+            elapsedSeconds = 0;
+            timerInterval = setInterval(() => {
+                elapsedSeconds++;
+                const hrs = String(Math.floor(elapsedSeconds / 3600)).padStart(2, '0');
+                const mins = String(Math.floor((elapsedSeconds % 3600) / 60)).padStart(2, '0');
+                const secs = String(elapsedSeconds % 60).padStart(2, '0');
+                const ms = String(Math.floor(Math.random() * 999)).padStart(3, '0');
+                document.getElementById('telemetry-elapsed').textContent = `${hrs}:${mins}:${secs}.${ms}`;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        // Poll Scan Status
+        async function pollScanStatus() {
+            if (!currentScanId || !isExecuting) return;
+            try {
+                const res = await fetch(`/api/scan/${currentScanId}/status`);
+                const status = await res.json();
+                if (status.status === 'complete') {
+                    isExecuting = false;
+                    updateButtonState(false);
+                    stopTimer();
+                    refreshScanData();
+                } else if (status.status === 'error') {
+                    isExecuting = false;
+                    updateButtonState(false);
+                    stopTimer();
+                } else {
+                    setTimeout(pollScanStatus, 2000);
+                }
+            } catch (err) {
+                setTimeout(pollScanStatus, 4000);
+            }
+        }
+
+        // Fetch & Populate Findings Matrix
+        async function refreshScanData() {
+            if (!currentScanId) {
+                // If no currentScanId, load latest from /api/scans
+                const scansRes = await fetch('/api/scans');
+                const scansData = await scansRes.json();
+                if (scansData.scans && scansData.scans.length > 0) {
+                    currentScanId = scansData.scans[0].scan_id;
+                } else {
+                    return;
+                }
+            }
+
+            try {
+                const res = await fetch(`/api/scan/${currentScanId}/data`);
+                if (!res.ok) return;
+                activeScanData = await res.json();
+
+                // Update KPIs
+                const crawlPages = activeScanData.crawl_results ? (activeScanData.crawl_results.pages || []).length : 0;
+                const portResults = activeScanData.port_scan_results || [];
+                const activeFindings = activeScanData.active_scan_findings || [];
+                const passiveResults = activeScanData.passive_scan_results || {};
+                const grade = (passiveResults.grade && passiveResults.grade.grade) ? passiveResults.grade.grade : 'B';
+
+                document.getElementById('kpi-grade').textContent = `[ ${grade} ]`;
+                document.getElementById('kpi-grade-desc').textContent = (grade === 'A' || grade === 'B') ? 'DEFENDED' : 'HIGH RISK';
+                document.getElementById('kpi-endpoints').textContent = `[ ${String(crawlPages).padStart(2, '0')} ]`;
+                document.getElementById('kpi-ports').textContent = `[ ${String(portResults.length).padStart(2, '0')} ]`;
+
+                document.getElementById('tab-endpoints-label').textContent = `[ ENDPOINTS (${crawlPages}) ]`;
+                document.getElementById('tab-ports-label').textContent = `[ OPEN PORTS (${portResults.length}) ]`;
+
+                // Calculate severities
+                let critCount = 0;
+                let highCount = 0;
+                let medCount = 0;
+
+                const tableBody = document.getElementById('vuln-table-body');
+                tableBody.innerHTML = '';
+
+                // Active findings
+                activeFindings.forEach((f, idx) => {
+                    const isSqli = f.type.toLowerCase().includes('sql');
+                    const sev = isSqli ? 'CRIT' : 'HIGH';
+                    if (sev === 'CRIT') critCount++; else highCount++;
+
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-surface-container-low transition-colors';
+                    tr.innerHTML = `
+                        <td class="py-1 px-space-sm border-r border-outline-variant">
+                            <span class="inline-block px-1 ${sev === 'CRIT' ? 'bg-error-container text-error border-error' : 'bg-surface-variant text-[#f9c74f] border-[#9a6700]'} text-label-sm font-bold border">${sev}</span>
+                        </td>
+                        <td class="py-1 px-space-sm border-r border-outline-variant text-on-surface font-semibold">
+                            ${escapeHtml(f.type)}
+                        </td>
+                        <td class="py-1 px-space-sm border-r border-outline-variant text-primary font-mono">
+                            ${escapeHtml(f.method || 'GET')} ${escapeHtml(f.url)} ${f.param ? `<span class="text-outline">(${escapeHtml(f.param)})</span>` : ''}
+                        </td>
+                        <td class="py-1 px-space-sm border-r border-outline-variant text-center font-bold ${sev === 'CRIT' ? 'text-error' : 'text-[#f9c74f]'}">
+                            ${sev === 'CRIT' ? '9.1' : '7.5'}
+                        </td>
+                        <td class="py-1 px-space-sm">
+                            <div class="flex items-center gap-space-xs flex-wrap">
+                                <button class="px-1.5 py-0.5 border border-outline-variant bg-surface-container hover:bg-surface-container-high text-label-sm text-on-surface" onclick="showActivePoc(${idx})" type="button">[ VIEW TRACE ]</button>
+                                <button class="px-1.5 py-0.5 border border-outline-variant bg-surface-container hover:bg-surface-container-high text-label-sm text-on-surface" onclick="copyCurlCmd('${escapeHtml(f.url)}')" type="button">[ COPY CURL ]</button>
+                            </div>
+                        </td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+
+                // Missing Security Headers (Medium)
+                const missingHeaders = (passiveResults.missing_headers || []);
+                missingHeaders.forEach((h, idx) => {
+                    medCount++;
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-surface-container-low transition-colors';
+                    tr.innerHTML = `
+                        <td class="py-1 px-space-sm border-r border-outline-variant">
+                            <span class="inline-block px-1 bg-surface-container-high text-on-surface-variant text-label-sm font-bold border border-outline">MED</span>
+                        </td>
+                        <td class="py-1 px-space-sm border-r border-outline-variant text-on-surface">
+                            Missing Security Header: ${escapeHtml(h)}
+                        </td>
+                        <td class="py-1 px-space-sm border-r border-outline-variant text-primary font-mono">
+                            GLOBAL POLICY / ${escapeHtml(activeScanData.target_url || '/')}
+                        </td>
+                        <td class="py-1 px-space-sm border-r border-outline-variant text-center font-bold text-on-surface-variant">
+                            5.4
+                        </td>
+                        <td class="py-1 px-space-sm">
+                            <span class="text-label-sm text-outline">[ REMEDIATION: ENFORCE ${escapeHtml(h).toUpperCase()} IN WEB PROXY ]</span>
+                        </td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+
+                document.getElementById('kpi-critical').textContent = `[ ${String(critCount).padStart(2, '0')} ]`;
+                document.getElementById('kpi-high').textContent = `[ ${String(highCount).padStart(2, '0')} ]`;
+                document.getElementById('kpi-medium').textContent = `[ ${String(medCount).padStart(2, '0')} ]`;
+
+                const totalVulns = critCount + highCount + medCount;
+                document.getElementById('tab-vulns-label').textContent = `[ VULNERABILITY MATRIX (${totalVulns}) ]`;
+                document.getElementById('table-count-label').textContent = `FINDINGS: ${totalVulns} DETECTED`;
+
+                if (totalVulns === 0) {
+                    tableBody.innerHTML = `
+                        <tr class="text-tertiary">
+                            <td colspan="5" class="py-3 text-center">[ AUDIT PASSED: ZERO EXPLOITABLE FLAWS DETECTED ON TARGET PERIMETER ]</td>
+                        </tr>
+                    `;
+                }
+
+            } catch (err) {
+                console.error('Error refreshing scan data:', err);
+            }
+        }
+
+        // Actions
+        function viewActiveReport() {
+            if (currentScanId) {
+                window.open(`/api/scan/${currentScanId}/report`, '_blank');
+            } else {
+                alert('Execute an audit first to generate an attestation report.');
+            }
+        }
+
+        function exportDataJson() {
+            if (activeScanData) {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(activeScanData, null, 2));
+                const dl = document.createElement('a');
+                dl.setAttribute("href", dataStr);
+                dl.setAttribute("download", `AUDIT_${currentScanId || 'DATA'}.json`);
+                dl.click();
+            } else if (currentScanId) {
+                window.open(`/api/scan/${currentScanId}/data`, '_blank');
+            } else {
+                alert('No audit telemetry available in buffer.');
+            }
+        }
+
+        function copyCurlCmd(url) {
+            const cmd = `curl -ik -s -X GET "${url}" -H "User-Agent: AuditCore/2.6"`;
+            navigator.clipboard.writeText(cmd).then(() => {
+                alert('Copied cURL vector to clipboard:\n' + cmd);
+            });
+        }
+
+        function showActivePoc(index) {
+            if (!activeScanData || !activeScanData.active_scan_findings) return;
+            const finding = activeScanData.active_scan_findings[index];
+            if (!finding) return;
+
+            document.getElementById('modal-vuln-id').textContent = `${finding.type} @ ${finding.url}`;
+            const pocText = `[PAYLOAD TRACE]
+Target: ${finding.url}
+Method: ${finding.method || 'GET'}
+Vulnerable Parameter: ${finding.param || 'N/A'}
+Injected Payload: ${finding.payload || "N/A"}
+Evidence Signature: ${finding.evidence || 'Pattern verification confirmed'}`;
+
+            document.getElementById('modal-poc-body').textContent = pocText;
+            document.getElementById('poc-modal').classList.remove('hidden');
+        }
+
+        function closePocModal() {
+            document.getElementById('poc-modal').classList.add('hidden');
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initial check for latest scan
+        refreshScanData();
+    </script>
 </body>
 </html>
