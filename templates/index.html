@@ -3,145 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penetration Testing Suite</title>
+    <title>CyberGuard // Next-Gen Penetration Testing Suite</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Main Style -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-shield-alt"></i> Penetration Testing Suite</h1>
-            <p class="subtitle">Comprehensive Web Application Security Scanner</p>
+    <!-- Background Ambient Glow -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <div class="app-container">
+        <!-- Top Navigation / Header -->
+        <header class="app-header">
+            <div class="header-brand">
+                <div class="brand-logo">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+                <div class="brand-info">
+                    <div class="brand-title">
+                        <span>CYBER</span>GUARD <span class="badge-version">v2.6 PRO</span>
+                    </div>
+                    <div class="brand-subtitle">Autonomous Web Penetration Testing & AI Remediation Engine</div>
+                </div>
+            </div>
+
+            <div class="header-status">
+                <div class="status-pill status-online">
+                    <span class="status-dot"></span>
+                    <span class="status-text">SYSTEM ONLINE</span>
+                </div>
+                <div class="status-pill status-engine">
+                    <i class="fas fa-microchip"></i>
+                    <span>HYBRID SCANNER ACTIVE</span>
+                </div>
+            </div>
         </header>
 
-        <main>
+        <main class="main-content">
             <!-- Scan Configuration Form -->
-            <section class="card" id="scan-form-section">
-                <h2><i class="fas fa-cog"></i> New Scan Configuration</h2>
+            <section class="cyber-card" id="scan-form-section">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-sliders card-icon"></i>
+                        <span>Audit Target Configuration</span>
+                    </div>
+                    <span class="badge-hint">Define Scope & Parameters</span>
+                </div>
+
+                <!-- Quick Presets -->
+                <div class="presets-container">
+                    <span class="presets-label"><i class="fas fa-bolt"></i> Quick Presets:</span>
+                    <button type="button" class="preset-btn active" id="preset-fast">
+                        <i class="fas fa-gauge-high"></i> Fast Benchmark (VulnWeb ~1m)
+                    </button>
+                    <button type="button" class="preset-btn" id="preset-standard">
+                        <i class="fas fa-globe"></i> Web Standard (Ports 80/443)
+                    </button>
+                    <button type="button" class="preset-btn" id="preset-deep">
+                        <i class="fas fa-microscope"></i> Deep Audit (Full Ports)
+                    </button>
+                </div>
+
                 <form id="scan-form">
                     <div class="form-group">
                         <label for="target_url">
-                            <i class="fas fa-globe"></i> Target URL
+                            <i class="fas fa-crosshairs"></i> Target URL / Host
                         </label>
-                        <input type="text" id="target_url" name="target_url" 
-                               placeholder="http://example.com or https://example.com" required>
+                        <div class="input-with-icon">
+                            <i class="fas fa-link input-icon"></i>
+                            <input type="text" id="target_url" name="target_url" 
+                                   placeholder="http://testphp.vulnweb.com/ or https://target-domain.com" 
+                                   value="http://testphp.vulnweb.com/" required autocomplete="off">
+                        </div>
+                        <small class="field-hint">Specify an authorized target URL with HTTP or HTTPS scheme.</small>
                     </div>
 
-                    <div class="form-row">
+                    <div class="form-grid">
                         <div class="form-group">
                             <label for="crawl_depth">
-                                <i class="fas fa-sitemap"></i> Crawl Depth
+                                <i class="fas fa-sitemap"></i> Crawl Depth (1 - 5)
                             </label>
-                            <input type="number" id="crawl_depth" name="crawl_depth" 
-                                   value="2" min="1" max="5" required>
+                            <div class="input-with-icon">
+                                <i class="fas fa-layer-group input-icon"></i>
+                                <input type="number" id="crawl_depth" name="crawl_depth" 
+                                       value="1" min="1" max="5" required>
+                            </div>
+                            <small class="field-hint">Depth 1 = Homepage & direct sublinks (Fastest).</small>
                         </div>
 
                         <div class="form-group">
                             <label for="start_port">
                                 <i class="fas fa-network-wired"></i> Start Port
                             </label>
-                            <input type="number" id="start_port" name="start_port" 
-                                   value="1" min="1" max="65535" required>
+                            <div class="input-with-icon">
+                                <i class="fas fa-hashtag input-icon"></i>
+                                <input type="number" id="start_port" name="start_port" 
+                                       value="80" min="1" max="65535" required>
+                            </div>
+                            <small class="field-hint">Default HTTP port: 80.</small>
                         </div>
 
                         <div class="form-group">
                             <label for="end_port">
                                 <i class="fas fa-network-wired"></i> End Port
                             </label>
-                            <input type="number" id="end_port" name="end_port" 
-                                   value="1024" min="1" max="65535" required>
+                            <div class="input-with-icon">
+                                <i class="fas fa-hashtag input-icon"></i>
+                                <input type="number" id="end_port" name="end_port" 
+                                       value="80" min="1" max="65535" required>
+                            </div>
+                            <small class="field-hint">Narrow range accelerates scan speed.</small>
                         </div>
                     </div>
 
-                    <div class="form-group checkbox-group">
-                        <label>
-                            <input type="checkbox" id="run_poc" name="run_poc">
-                            <span>Run PoC Module (Proof of Concept)</span>
-                        </label>
-                    </div>
+                    <div class="form-row-footer">
+                        <div class="checkbox-toggle-wrapper">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="run_poc" name="run_poc">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="toggle-label">
+                                <strong>Interactive PoC Mode</strong>
+                                <small>Generate Proof-of-Concept exploits for detected flaws (CLI-confirmed)</small>
+                            </span>
+                        </div>
 
-                    <button type="submit" class="btn btn-primary" id="start-scan-btn">
-                        <i class="fas fa-play"></i> Start Scan
-                    </button>
+                        <button type="submit" class="cyber-btn cyber-btn-primary" id="start-scan-btn">
+                            <span class="btn-glow"></span>
+                            <i class="fas fa-bolt-lightning"></i>
+                            <span>Launch Penetration Audit</span>
+                        </button>
+                    </div>
                 </form>
             </section>
 
             <!-- Active Scan Progress -->
-            <section class="card" id="progress-section" style="display: none;">
-                <h2><i class="fas fa-spinner fa-spin"></i> Scan Progress</h2>
-                <div class="progress-container">
-                    <div class="progress-bar">
+            <section class="cyber-card" id="progress-section" style="display: none;">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="pulsing-radar"></div>
+                        <span>Live Audit Progress & Diagnostics</span>
+                    </div>
+                    <div class="audit-timer" id="audit-timer">
+                        <i class="fas fa-clock"></i> <span>00:00</span>
+                    </div>
+                </div>
+
+                <!-- Circular / Linear Progress Bar HUD -->
+                <div class="progress-hud">
+                    <div class="progress-hud-top">
+                        <span class="progress-status-label" id="progress-stage-name">Initializing Engine...</span>
+                        <span class="progress-text" id="progress-text">0%</span>
+                    </div>
+                    <div class="progress-bar-track">
                         <div class="progress-fill" id="progress-fill"></div>
                     </div>
-                    <div class="progress-text" id="progress-text">0%</div>
                 </div>
+
+                <!-- Modern Visual Pipeline -->
                 <div class="progress-stages">
                     <div class="stage" id="stage-crawling">
-                        <i class="fas fa-spider"></i> Crawling
+                        <div class="stage-icon-wrap"><i class="fas fa-spider"></i></div>
+                        <div class="stage-name">Web Spider</div>
+                        <div class="stage-sub">Surface Mapping</div>
                     </div>
                     <div class="stage" id="stage-port_scanning">
-                        <i class="fas fa-network-wired"></i> Port Scanning
+                        <div class="stage-icon-wrap"><i class="fas fa-network-wired"></i></div>
+                        <div class="stage-name">Port Scanner</div>
+                        <div class="stage-sub">Service Probing</div>
                     </div>
                     <div class="stage" id="stage-passive_scanning">
-                        <i class="fas fa-search"></i> Passive Scanning
+                        <div class="stage-icon-wrap"><i class="fas fa-shield-virus"></i></div>
+                        <div class="stage-name">Passive Audit</div>
+                        <div class="stage-sub">Headers & SSL</div>
                     </div>
                     <div class="stage" id="stage-active_scanning">
-                        <i class="fas fa-bug"></i> Active Scanning
+                        <div class="stage-icon-wrap"><i class="fas fa-bug"></i></div>
+                        <div class="stage-name">Active Fuzzing</div>
+                        <div class="stage-sub">SQLi / XSS</div>
                     </div>
                     <div class="stage" id="stage-reporting">
-                        <i class="fas fa-file-alt"></i> Reporting
+                        <div class="stage-icon-wrap"><i class="fas fa-file-invoice"></i></div>
+                        <div class="stage-name">Report Engine</div>
+                        <div class="stage-sub">Synthesis</div>
                     </div>
                 </div>
-                <div class="progress-messages" id="progress-messages"></div>
+
+                <!-- Live Terminal Console -->
+                <div class="terminal-container">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                        </div>
+                        <div class="terminal-title">
+                            <i class="fas fa-terminal"></i> <span>audit_stream.log — Live WebSocket Telemetry</span>
+                        </div>
+                        <div class="terminal-controls">
+                            <button type="button" class="term-btn" id="clear-terminal-btn" title="Clear console">
+                                <i class="fas fa-eraser"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+                    <div class="progress-messages" id="progress-messages"></div>
+                </div>
             </section>
 
-            <!-- Scan Results -->
-            <section class="card" id="results-section" style="display: none;">
-                <h2><i class="fas fa-chart-line"></i> Scan Results</h2>
+            <!-- Scan Results Summary -->
+            <section class="cyber-card" id="results-section" style="display: none;">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-square-poll-vertical card-icon"></i>
+                        <span>Audit Findings & Executive Summary</span>
+                    </div>
+                    <span class="badge-success"><i class="fas fa-check-double"></i> Completed</span>
+                </div>
+
                 <div id="results-content"></div>
+
                 <div class="action-buttons">
-                    <button class="btn btn-success" id="view-report-btn" style="display: none;">
-                        <i class="fas fa-file-alt"></i> View Full Report
+                    <button class="cyber-btn cyber-btn-success" id="view-report-btn" style="display: none;">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>View Interactive HTML Report</span>
                     </button>
-                    <button class="btn btn-primary" id="get-remediation-btn" style="display: none;">
-                        <i class="fas fa-robot"></i> Get AI Remediation Report
+                    <button class="cyber-btn cyber-btn-purple" id="get-remediation-btn" style="display: none;">
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                        <span>AI Remediation Analysis (Gemini)</span>
                     </button>
-                    <button class="btn btn-secondary" id="new-scan-btn">
-                        <i class="fas fa-plus"></i> New Scan
+                    <button class="cyber-btn cyber-btn-secondary" id="new-scan-btn">
+                        <i class="fas fa-rotate-right"></i>
+                        <span>Configure New Audit</span>
                     </button>
                 </div>
             </section>
 
-            <!-- Remediation Report -->
-            <section class="card" id="remediation-section" style="display: none;">
-                <h2><i class="fas fa-robot"></i> AI-Powered Remediation Report</h2>
+            <!-- AI Remediation Section -->
+            <section class="cyber-card" id="remediation-section" style="display: none;">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-brain card-icon ai-glow"></i>
+                        <span>Gemini AI Automated Remediation Engine</span>
+                    </div>
+                    <button class="icon-btn-close" id="close-remediation-btn" title="Close">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </div>
+
                 <div id="remediation-loading" style="display: none;">
-                    <p class="loading"><i class="fas fa-spinner fa-spin"></i> Generating AI remediation suggestions...</p>
+                    <div class="ai-loading-box">
+                        <div class="ai-spinner"></div>
+                        <h4>Synthesizing Vulnerability Mitigations...</h4>
+                        <p>Querying Google Gemini API with findings context to generate architectural code patches.</p>
+                    </div>
                 </div>
+
                 <div id="remediation-content"></div>
-                <div class="action-buttons" style="margin-top: 20px;">
-                    <button class="btn btn-secondary" id="close-remediation-btn">
-                        <i class="fas fa-times"></i> Close
-                    </button>
-                </div>
             </section>
 
-            <!-- Previous Scans -->
-            <section class="card">
-                <h2><i class="fas fa-history"></i> Previous Scans</h2>
+            <!-- Previous Scans History -->
+            <section class="cyber-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-clock-rotate-left card-icon"></i>
+                        <span>Scan Audit History</span>
+                    </div>
+                    <button class="term-btn" id="refresh-history-btn">
+                        <i class="fas fa-arrows-rotate"></i> Refresh
+                    </button>
+                </div>
                 <div id="scans-list">
-                    <p class="loading">Loading scan history...</p>
+                    <p class="loading"><i class="fas fa-spinner fa-spin"></i> Retrieving scan audit logs...</p>
                 </div>
             </section>
         </main>
 
-        <footer>
-            <p>&copy; 2024 Penetration Testing Suite | Built for Security Research</p>
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div>
+                    <span class="footer-highlight">&copy; 2026 CYBERGUARD SECURITY SUITE</span>
+                    <span>// Autonomous Vulnerability Assessment & Defensive Intelligence</span>
+                </div>
+                <div class="footer-links">
+                    <a href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool" target="_blank" class="footer-link">
+                        <i class="fab fa-github"></i> GitHub Repository
+                    </a>
+                </div>
+            </div>
         </footer>
     </div>
 
+    <!-- Scripts -->
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
-

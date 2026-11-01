@@ -282,10 +282,11 @@ def get_scan_status(scan_id):
 @app.route('/api/scan/<scan_id>/report', methods=['GET'])
 def get_scan_report(scan_id):
     """Get the report file for a scan."""
-    if scan_id not in active_scans:
-        return jsonify({'error': 'Scan not found'}), 404
-    
-    report_path = active_scans[scan_id].get('report_path')
+    report_path = None
+    if scan_id in active_scans:
+        report_path = active_scans[scan_id].get('report_path')
+    elif scan_id in scan_results:
+        report_path = scan_results[scan_id].get('report_path')
     if not report_path or not os.path.exists(report_path):
         return jsonify({'error': 'Report not found'}), 404
     
@@ -314,7 +315,9 @@ def list_scans():
             'target_url': scan_data['target_url'],
             'start_time': scan_data['start_time'],
             'end_time': scan_data['end_time'],
-            'summary': scan_data['summary']
+            'summary': scan_data['summary'],
+            'status': 'complete',
+            'report_path': scan_data.get('report_path')
         })
     
     # Also include active scans
