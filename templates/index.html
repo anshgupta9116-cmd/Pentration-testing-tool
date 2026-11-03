@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberGuard // Modern Security Scanner</title>
-    <!-- Google Fonts -->
+    <title>CyberGuard // Application Security Workbench</title>
+    
+    <!-- Professional Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- FontAwesome 6 -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome 6 (for functional glyphs) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Tailwind CSS -->
+    
+    <!-- Tailwind CSS (Utility Framework) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -18,23 +21,17 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-                        mono: ['"JetBrains Mono"', 'monospace'],
+                        sans: ['"IBM Plex Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        mono: ['"IBM Plex Mono"', 'Consolas', 'monospace'],
                     },
                     colors: {
-                        brand: {
-                            50: '#eff6ff',
-                            100: '#dbeafe',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                        },
-                        dark: {
-                            bg: '#090d16',
-                            card: '#0f172a',
-                            cardHover: '#131e36',
-                            border: '#1e293b',
-                            input: '#0b1120',
+                        surface: {
+                            base: '#0d1117',
+                            panel: '#161b22',
+                            panelHover: '#1c2128',
+                            border: '#30363d',
+                            borderMuted: '#21262d',
+                            input: '#090d12',
                         }
                     }
                 }
@@ -43,435 +40,368 @@
     </script>
     <style>
         body {
-            background-color: #090d16;
-            color: #f8fafc;
-            font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
-        /* Custom subtle scrollbar */
+        /* Strict flat ergonomics - No blurry dropshadows */
+        * {
+            box-shadow: none !important;
+        }
+        /* Clean terminal scrollbar */
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
         }
         ::-webkit-scrollbar-track {
-            background: #0f172a;
+            background: #0d1117;
         }
         ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 4px;
+            background: #30363d;
+            border-radius: 2px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #475569;
-        }
-        .pulse-dot {
-            animation: pulse-animation 2s infinite ease-in-out;
-        }
-        @keyframes pulse-animation {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.85); }
+            background: #484f58;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-blue-600 selection:text-white">
+<body class="min-h-screen flex flex-col antialiased selection:bg-[#1f6feb] selection:text-white text-[13px]">
 
-    <!-- Top Navigation Bar -->
-    <header class="sticky top-0 z-50 bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-            <!-- Brand Logo -->
+    <!-- Top Application Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-[#161b22] border-b border-[#30363d]">
+        <div class="max-w-7xl mx-auto px-4 h-12 flex items-center justify-between">
+            <!-- Brand & Metadata -->
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
-                    <i class="fas fa-shield-halved text-lg"></i>
+                <div class="w-6 h-6 rounded bg-[#238636] flex items-center justify-center text-white text-xs">
+                    <i class="fas fa-shield-halved"></i>
                 </div>
-                <div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-lg font-bold tracking-tight text-white">CyberGuard</span>
-                        <span class="text-[11px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2 py-0.5 rounded-full">Pro</span>
-                    </div>
-                    <p class="text-xs text-slate-400 hidden sm:block">Automated Web Penetration & Security Testing</p>
+                <div class="flex items-center gap-2">
+                    <span class="font-semibold text-white tracking-tight">CyberGuard</span>
+                    <span class="text-[11px] font-mono text-[#8b949e]">v2.6.4</span>
+                    <span class="text-[#30363d]">/</span>
+                    <span class="text-[11px] font-mono text-[#8b949e]">DAST Inspector</span>
                 </div>
             </div>
 
-            <!-- Status Indicator & Actions -->
-            <div class="flex items-center gap-4">
-                <div class="hidden md:flex items-center gap-2 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-full text-xs font-medium text-emerald-400">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot shadow-[0_0_8px_#10b981]"></span>
-                    <span id="header-status">Daemon Online (Port 5000)</span>
+            <!-- Daemon & Session State -->
+            <div class="flex items-center gap-4 text-xs font-mono">
+                <div class="flex items-center gap-2 text-[#8b949e]">
+                    <span class="w-2 h-2 rounded-full bg-[#238636]"></span>
+                    <span id="daemon-indicator">Daemon: 127.0.0.1:5000</span>
                 </div>
-                <a href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool" target="_blank" 
-                   class="flex items-center gap-2 text-xs font-semibold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3.5 py-1.5 rounded-lg transition">
-                    <i class="fab fa-github"></i>
-                    <span>Repository</span>
-                </a>
+                <div class="h-3 w-[1px] bg-[#30363d] hidden sm:block"></div>
+                <div class="hidden sm:flex items-center gap-3 text-[#8b949e]">
+                    <a href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool" target="_blank" class="hover:text-white transition flex items-center gap-1.5">
+                        <i class="fab fa-github"></i> Repository
+                    </a>
+                    <a href="/api/scans" target="_blank" class="hover:text-white transition">API</a>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 flex flex-col gap-8">
+    <!-- Main Workspace -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6 flex flex-col gap-6">
 
-        <!-- SECTION 1: Scan Configuration Card -->
-        <section id="scan-config-section" class="bg-[#0f172a] border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
-            <!-- Header -->
-            <div class="mb-6">
-                <h1 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Run a Vulnerability Scan</h1>
-                <p class="text-sm text-slate-400 mt-1">Audit any web application for SQL Injection, XSS, insecure headers, and open ports.</p>
-            </div>
-
-            <!-- Quick Presets -->
-            <div class="mb-6">
-                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">
-                    <i class="fas fa-bolt text-amber-400 mr-1.5"></i> Recommended Presets
-                </label>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <button type="button" id="preset-fast" onclick="applyPreset('fast')" 
-                            class="preset-card text-left p-3.5 rounded-xl border border-blue-500/30 bg-blue-500/10 text-white hover:border-blue-500 transition group cursor-pointer">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-blue-400 group-hover:text-blue-300">Fast Benchmark</span>
-                            <span class="text-[11px] font-mono text-slate-400 bg-slate-900/80 px-2 py-0.5 rounded">~ 1 min</span>
-                        </div>
-                        <p class="text-xs text-slate-300 mt-1 font-medium">testphp.vulnweb.com (Port 80)</p>
+        <!-- WORKBENCH 1: Audit Scope & Target Controller -->
+        <section id="config-panel" class="bg-[#161b22] border border-[#30363d] rounded-lg p-5">
+            <!-- Card Header -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-[#21262d]">
+                <div>
+                    <h1 class="text-base font-semibold text-white">Target Scope & Configuration</h1>
+                    <p class="text-xs text-[#8b949e] mt-0.5">Define target hostname, crawling depth, and automated injection fuzzing parameters.</p>
+                </div>
+                
+                <!-- Compact Segmented Preset Switcher (Replaces the 3 bulky cards) -->
+                <div class="inline-flex rounded border border-[#30363d] bg-[#0d1117] p-0.5 font-mono text-xs">
+                    <button type="button" id="tab-preset-fast" onclick="switchPreset('fast')" 
+                            class="px-3 py-1 rounded bg-[#21262d] text-white font-medium hover:text-white transition">
+                        Quick Bench (1m)
                     </button>
-
-                    <button type="button" id="preset-standard" onclick="applyPreset('standard')" 
-                            class="preset-card text-left p-3.5 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-300 hover:border-slate-700 hover:text-white transition group cursor-pointer">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-slate-300 group-hover:text-blue-400">Web Standard</span>
-                            <span class="text-[11px] font-mono text-slate-400 bg-slate-900/80 px-2 py-0.5 rounded">~ 4 mins</span>
-                        </div>
-                        <p class="text-xs text-slate-400 mt-1">Crawl Depth 1 (Ports 80 & 443)</p>
+                    <button type="button" id="tab-preset-standard" onclick="switchPreset('standard')" 
+                            class="px-3 py-1 rounded text-[#8b949e] hover:text-white transition">
+                        Standard (80/443)
                     </button>
-
-                    <button type="button" id="preset-deep" onclick="applyPreset('deep')" 
-                            class="preset-card text-left p-3.5 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-300 hover:border-slate-700 hover:text-white transition group cursor-pointer">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-slate-300 group-hover:text-blue-400">Deep Audit</span>
-                            <span class="text-[11px] font-mono text-slate-400 bg-slate-900/80 px-2 py-0.5 rounded">~ 15 mins</span>
-                        </div>
-                        <p class="text-xs text-slate-400 mt-1">Depth 2 (Top 1024 Ports)</p>
+                    <button type="button" id="tab-preset-deep" onclick="switchPreset('deep')" 
+                            class="px-3 py-1 rounded text-[#8b949e] hover:text-white transition">
+                        Full Ports (1-1024)
                     </button>
                 </div>
             </div>
 
-            <!-- Form -->
-            <form id="scan-form" onsubmit="handleStartScan(event)">
-                <!-- Target URL Input -->
-                <div class="mb-5">
-                    <label for="target_url" class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                        Target Website URL
-                    </label>
-                    <div class="relative flex items-center">
-                        <div class="absolute left-4 text-slate-400 pointer-events-none">
-                            <i class="fas fa-globe text-base"></i>
+            <!-- Configuration Form -->
+            <form id="audit-form" onsubmit="executeAudit(event)">
+                <div class="flex flex-col gap-4">
+                    <!-- URL Input Row -->
+                    <div>
+                        <label for="target_url" class="block text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-1.5 font-mono">
+                            Target Hostname / Endpoint
+                        </label>
+                        <div class="flex gap-2">
+                            <input type="text" id="target_url" name="target_url" 
+                                   value="http://testphp.vulnweb.com/" 
+                                   placeholder="http://example.com or https://target-host.local" 
+                                   required
+                                   class="flex-1 bg-[#090d12] text-white font-mono text-xs px-3.5 py-2.5 rounded border border-[#30363d] focus:border-[#58a6ff] focus:outline-none">
+                            
+                            <button type="submit" id="btn-submit" 
+                                    class="px-5 py-2.5 bg-[#238636] hover:bg-[#2ea043] text-white font-semibold text-xs rounded transition flex items-center gap-2 shrink-0">
+                                <i class="fas fa-play text-[10px]"></i>
+                                <span>Execute Audit</span>
+                            </button>
                         </div>
-                        <input type="text" id="target_url" name="target_url" 
-                               value="http://testphp.vulnweb.com/" 
-                               placeholder="http://example.com or https://your-site.com" 
-                               required
-                               class="w-full bg-[#0b1120] text-white font-mono text-sm sm:text-base pl-12 pr-4 py-3.5 rounded-xl border border-slate-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition">
                     </div>
-                </div>
 
-                <!-- Collapsible Advanced Settings -->
-                <div class="mb-6">
-                    <button type="button" onclick="toggleAdvancedOptions()" 
-                            class="flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-slate-200 transition py-1">
-                        <i id="advanced-toggle-icon" class="fas fa-chevron-right text-[10px] transition-transform"></i>
-                        <span>Advanced Parameters (Crawl Depth, Ports, PoC)</span>
-                    </button>
-
-                    <div id="advanced-options" class="hidden mt-4 pt-4 border-t border-slate-800/80 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <!-- Dense Technical Parameters Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 pt-2 border-t border-[#21262d]">
+                        <!-- Depth -->
                         <div>
-                            <label for="crawl_depth" class="block text-xs font-semibold text-slate-400 mb-1.5">
-                                <i class="fas fa-sitemap mr-1 text-slate-500"></i> Crawl Depth (1 - 5)
-                            </label>
+                            <label for="crawl_depth" class="block text-[11px] font-mono text-[#8b949e] mb-1">CRAWL DEPTH (1-5)</label>
                             <input type="number" id="crawl_depth" min="1" max="5" value="1" 
-                                   class="w-full bg-[#0b1120] text-white text-sm px-3.5 py-2.5 rounded-lg border border-slate-700 focus:border-blue-500 focus:outline-none">
-                            <span class="text-[11px] text-slate-500 mt-1 block">Depth 1 = Direct links only (fastest).</span>
+                                   class="w-full bg-[#090d12] text-white font-mono text-xs px-3 py-1.5 rounded border border-[#30363d] focus:border-[#58a6ff] focus:outline-none">
                         </div>
 
+                        <!-- Start Port -->
                         <div>
-                            <label for="start_port" class="block text-xs font-semibold text-slate-400 mb-1.5">
-                                <i class="fas fa-network-wired mr-1 text-slate-500"></i> Start Port
-                            </label>
+                            <label for="start_port" class="block text-[11px] font-mono text-[#8b949e] mb-1">START PORT</label>
                             <input type="number" id="start_port" min="1" max="65535" value="80" 
-                                   class="w-full bg-[#0b1120] text-white text-sm px-3.5 py-2.5 rounded-lg border border-slate-700 focus:border-blue-500 focus:outline-none">
+                                   class="w-full bg-[#090d12] text-white font-mono text-xs px-3 py-1.5 rounded border border-[#30363d] focus:border-[#58a6ff] focus:outline-none">
                         </div>
 
+                        <!-- End Port -->
                         <div>
-                            <label for="end_port" class="block text-xs font-semibold text-slate-400 mb-1.5">
-                                <i class="fas fa-network-wired mr-1 text-slate-500"></i> End Port
-                            </label>
+                            <label for="end_port" class="block text-[11px] font-mono text-[#8b949e] mb-1">END PORT</label>
                             <input type="number" id="end_port" min="1" max="65535" value="80" 
-                                   class="w-full bg-[#0b1120] text-white text-sm px-3.5 py-2.5 rounded-lg border border-slate-700 focus:border-blue-500 focus:outline-none">
+                                   class="w-full bg-[#090d12] text-white font-mono text-xs px-3 py-1.5 rounded border border-[#30363d] focus:border-[#58a6ff] focus:outline-none">
                         </div>
 
-                        <div class="sm:col-span-3 pt-2">
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" id="run_poc" class="w-4 h-4 rounded text-blue-600 bg-slate-900 border-slate-700 focus:ring-0">
-                                <span class="text-xs text-slate-300">Generate Proof-of-Concept exploits for detected flaws</span>
+                        <!-- PoC Validation Toggle -->
+                        <div class="flex items-end pb-1">
+                            <label class="flex items-center gap-2 cursor-pointer text-xs text-[#c9d1d9]">
+                                <input type="checkbox" id="run_poc" class="rounded border-[#30363d] bg-[#090d12] text-[#238636] focus:ring-0">
+                                <span>Validate Non-Destructive PoC</span>
                             </label>
                         </div>
                     </div>
                 </div>
-
-                <!-- Submit Button -->
-                <button type="submit" id="start-scan-btn" 
-                        class="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm rounded-xl shadow-lg shadow-blue-600/30 hover:shadow-blue-600/40 transition flex items-center justify-center gap-2 cursor-pointer">
-                    <i class="fas fa-play text-xs"></i>
-                    <span>Start Security Scan</span>
-                </button>
             </form>
         </section>
 
-        <!-- SECTION 2: Live Scan Progress (Hidden until started) -->
-        <section id="progress-section" class="hidden bg-[#0f172a] border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl">
-            <!-- Progress Top Info -->
-            <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800">
-                <div>
-                    <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-blue-500 pulse-dot"></span>
-                        <h2 class="text-xl font-bold text-white tracking-tight">Scan in Progress</h2>
-                    </div>
-                    <p class="text-xs text-slate-400 font-mono mt-1" id="active-target-display">Target: http://testphp.vulnweb.com/</p>
-                </div>
+        <!-- WORKBENCH 2: Real-time Execution Diagnostics (Visible during running audit) -->
+        <section id="telemetry-panel" class="hidden bg-[#161b22] border border-[#30363d] rounded-lg p-5">
+            <!-- Header Status Bar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4 border-b border-[#21262d]">
                 <div class="flex items-center gap-3">
-                    <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-lg text-xs font-mono text-slate-300">
-                        <i class="fas fa-clock text-blue-400"></i>
-                        <span id="scan-timer">00:00</span>
-                    </div>
+                    <span class="w-2 h-2 rounded-full bg-[#58a6ff] animate-ping"></span>
+                    <span class="font-semibold text-white text-sm" id="live-stage-desc">Running Scan Engine...</span>
+                    <span class="text-xs font-mono text-[#8b949e]" id="live-target-badge">Target: http://testphp.vulnweb.com/</span>
+                </div>
+                <div class="flex items-center gap-3 text-xs font-mono">
+                    <span class="text-[#8b949e]">Elapsed: <strong class="text-white" id="live-timer">00:00</strong></span>
+                    <span class="text-[#30363d]">|</span>
+                    <span class="text-[#58a6ff] font-bold" id="live-progress-pct">0%</span>
                 </div>
             </div>
 
-            <!-- Progress Bar -->
-            <div class="mb-8">
-                <div class="flex justify-between items-center text-xs font-semibold mb-2">
-                    <span class="text-blue-400" id="current-stage-title">Initializing scan pipeline...</span>
-                    <span class="text-white font-mono text-sm" id="progress-percentage">0%</span>
-                </div>
-                <div class="w-full h-2.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
-                    <div id="progress-bar-fill" class="h-full bg-gradient-to-r from-blue-600 to-indigo-500 rounded-full transition-all duration-300" style="width: 0%"></div>
-                </div>
+            <!-- Linear Progress Strip -->
+            <div class="w-full h-1.5 bg-[#090d12] rounded overflow-hidden mb-4 border border-[#21262d]">
+                <div id="live-progress-bar" class="h-full bg-[#238636] transition-all duration-300" style="width: 0%"></div>
             </div>
 
-            <!-- Visual 5 Pipeline Stages -->
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
-                <div id="step-crawling" class="stage-step p-3 rounded-xl border border-slate-800 bg-slate-900/50 text-center transition">
-                    <i class="fas fa-spider text-slate-500 text-lg mb-1.5 block"></i>
-                    <span class="text-xs font-semibold text-slate-400 block">1. Crawling</span>
-                    <span class="text-[10px] text-slate-500">Mapping pages</span>
-                </div>
-                <div id="step-port_scanning" class="stage-step p-3 rounded-xl border border-slate-800 bg-slate-900/50 text-center transition">
-                    <i class="fas fa-network-wired text-slate-500 text-lg mb-1.5 block"></i>
-                    <span class="text-xs font-semibold text-slate-400 block">2. Ports</span>
-                    <span class="text-[10px] text-slate-500">Probing TCP</span>
-                </div>
-                <div id="step-passive_scanning" class="stage-step p-3 rounded-xl border border-slate-800 bg-slate-900/50 text-center transition">
-                    <i class="fas fa-shield-virus text-slate-500 text-lg mb-1.5 block"></i>
-                    <span class="text-xs font-semibold text-slate-400 block">3. Passive</span>
-                    <span class="text-[10px] text-slate-500">Headers & SSL</span>
-                </div>
-                <div id="step-active_scanning" class="stage-step p-3 rounded-xl border border-slate-800 bg-slate-900/50 text-center transition">
-                    <i class="fas fa-bug text-slate-500 text-lg mb-1.5 block"></i>
-                    <span class="text-xs font-semibold text-slate-400 block">4. Active</span>
-                    <span class="text-[10px] text-slate-500">SQLi & XSS</span>
-                </div>
-                <div id="step-reporting" class="stage-step p-3 rounded-xl border border-slate-800 bg-slate-900/50 text-center transition">
-                    <i class="fas fa-file-invoice text-slate-500 text-lg mb-1.5 block"></i>
-                    <span class="text-xs font-semibold text-slate-400 block">5. Report</span>
-                    <span class="text-[10px] text-slate-500">Generating HTML</span>
-                </div>
+            <!-- Pipeline Stepper Tracker -->
+            <div class="grid grid-cols-5 text-center text-xs font-mono border border-[#30363d] bg-[#0d1117] rounded mb-4 divide-x divide-[#30363d]">
+                <div id="step-crawling" class="py-2 text-[#8b949e]">1. Crawler</div>
+                <div id="step-port_scanning" class="py-2 text-[#8b949e]">2. Port Scan</div>
+                <div id="step-passive_scanning" class="py-2 text-[#8b949e]">3. Headers/SSL</div>
+                <div id="step-active_scanning" class="py-2 text-[#8b949e]">4. Active Fuzzing</div>
+                <div id="step-reporting" class="py-2 text-[#8b949e]">5. Report Gen</div>
             </div>
 
-            <!-- Terminal Console Logs -->
-            <div class="bg-[#0b1120] border border-slate-800 rounded-xl overflow-hidden">
-                <div class="bg-slate-900/80 px-4 py-2 border-b border-slate-800 flex items-center justify-between text-xs text-slate-400">
-                    <span class="font-mono flex items-center gap-2">
-                        <i class="fas fa-terminal text-blue-400"></i> Live Activity Log
-                    </span>
-                    <button type="button" onclick="clearLiveLogs()" class="hover:text-white transition">
-                        <i class="fas fa-trash-can mr-1"></i> Clear
-                    </button>
+            <!-- Plain Developer Console Stream -->
+            <div class="bg-[#090d12] border border-[#30363d] rounded p-3">
+                <div class="flex items-center justify-between pb-2 mb-2 border-b border-[#21262d] text-[11px] font-mono text-[#8b949e]">
+                    <span>STDOUT // TELEMETRY STREAM</span>
+                    <button type="button" onclick="clearTelemetryLog()" class="hover:text-white transition">[Clear Log]</button>
                 </div>
-                <div id="live-logs" class="p-4 h-48 overflow-y-auto font-mono text-xs space-y-1 text-slate-300">
-                    <p class="text-slate-500">[System] Initializing background scan worker...</p>
+                <div id="telemetry-log" class="h-44 overflow-y-auto font-mono text-xs space-y-1 text-[#8b949e]">
+                    <p class="text-[#8b949e]">[SYS] Engine initialized. Awaiting pipeline worker feedback...</p>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 3: Results & Summary HUD (Hidden until complete) -->
-        <section id="results-section" class="hidden bg-[#0f172a] border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl">
-            <!-- Header -->
-            <div class="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800">
+        <!-- WORKBENCH 3: Triage & Audit Findings (Visible when scan completes) -->
+        <section id="results-panel" class="hidden bg-[#161b22] border border-[#30363d] rounded-lg p-5">
+            <!-- Header & Action Row -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-[#21262d]">
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
-                        <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Audit Findings & Summary</h2>
+                        <span class="w-2 h-2 rounded-full bg-[#238636]"></span>
+                        <h2 class="text-base font-semibold text-white">Security Audit Findings & Metrics</h2>
                     </div>
-                    <p class="text-xs text-slate-400 mt-1">Scan completed successfully. Key metrics and vulnerabilities are summarized below.</p>
+                    <p class="text-xs text-[#8b949e] mt-0.5">Automated assessment complete. Review identified vulnerabilities, status codes, and remediation advice.</p>
                 </div>
-                <!-- Action Buttons -->
-                <div class="flex items-center gap-2 flex-wrap">
-                    <button type="button" id="btn-view-report" onclick="openFullReport()" 
-                            class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs rounded-xl shadow-lg shadow-emerald-600/20 transition flex items-center gap-2">
-                        <i class="fas fa-file-invoice"></i> View Full HTML Report
+
+                <!-- Primary Action Buttons (Functional labels, no magic sparkles) -->
+                <div class="flex items-center gap-2">
+                    <button type="button" id="btn-open-report" onclick="openReportWindow()" 
+                            class="px-3.5 py-1.5 bg-[#238636] hover:bg-[#2ea043] text-white font-medium text-xs rounded transition flex items-center gap-1.5">
+                        <i class="fas fa-file-lines text-xs"></i> View HTML Report
                     </button>
-                    <button type="button" id="btn-ai-remediation" onclick="fetchAIRemediation()" 
-                            class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs rounded-xl shadow-lg shadow-indigo-600/20 transition flex items-center gap-2">
-                        <i class="fas fa-wand-magic-sparkles"></i> AI Remediation (Gemini)
+                    <button type="button" id="btn-remediation" onclick="triggerRemediation()" 
+                            class="px-3.5 py-1.5 bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] text-[#c9d1d9] font-medium text-xs rounded transition flex items-center gap-1.5">
+                        <i class="fas fa-wrench text-xs text-[#58a6ff]"></i> Remediation Playbook
                     </button>
-                    <button type="button" onclick="resetToNewScan()" 
-                            class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs rounded-xl border border-slate-700 transition flex items-center gap-2">
-                        <i class="fas fa-rotate-right"></i> New Scan
+                    <button type="button" onclick="startNewAudit()" 
+                            class="px-3 py-1.5 bg-[#0d1117] hover:bg-[#161b22] border border-[#30363d] text-[#8b949e] hover:text-white text-xs rounded transition">
+                        New Audit
                     </button>
                 </div>
             </div>
 
-            <!-- KPI Metric Cards Grid -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                <!-- Grade Card -->
-                <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl text-center">
-                    <span class="text-xs font-semibold text-slate-400 block mb-1 uppercase tracking-wider">Security Grade</span>
-                    <span id="metric-grade" class="text-3xl font-extrabold text-blue-400 font-mono">B</span>
+            <!-- Compact Key-Value Metric Strip (Replaces 4 square cards) -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5 font-mono text-xs">
+                <div class="p-3 bg-[#0d1117] border border-[#30363d] rounded">
+                    <span class="text-[#8b949e] block text-[11px] mb-1">POSTURE GRADE</span>
+                    <span id="metric-grade" class="text-lg font-bold text-[#58a6ff]">B</span>
                 </div>
-                <!-- Vulnerabilities Card -->
-                <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl text-center">
-                    <span class="text-xs font-semibold text-slate-400 block mb-1 uppercase tracking-wider">Vulnerabilities</span>
-                    <span id="metric-vulns" class="text-3xl font-extrabold text-rose-400 font-mono">0</span>
+                <div class="p-3 bg-[#0d1117] border border-[#30363d] rounded">
+                    <span class="text-[#8b949e] block text-[11px] mb-1">VULNERABILITIES</span>
+                    <span id="metric-vulns" class="text-lg font-bold text-[#f85149]">0</span>
                 </div>
-                <!-- Pages Crawled Card -->
-                <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl text-center">
-                    <span class="text-xs font-semibold text-slate-400 block mb-1 uppercase tracking-wider">Pages Crawled</span>
-                    <span id="metric-pages" class="text-3xl font-extrabold text-white font-mono">0</span>
+                <div class="p-3 bg-[#0d1117] border border-[#30363d] rounded">
+                    <span class="text-[#8b949e] block text-[11px] mb-1">CRAWLED ENDPOINTS</span>
+                    <span id="metric-pages" class="text-lg font-bold text-white">0</span>
                 </div>
-                <!-- Open Ports Card -->
-                <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl text-center">
-                    <span class="text-xs font-semibold text-slate-400 block mb-1 uppercase tracking-wider">Open Ports</span>
-                    <span id="metric-ports" class="text-3xl font-extrabold text-emerald-400 font-mono">0</span>
+                <div class="p-3 bg-[#0d1117] border border-[#30363d] rounded">
+                    <span class="text-[#8b949e] block text-[11px] mb-1">ENUMERATED PORTS</span>
+                    <span id="metric-ports" class="text-lg font-bold text-[#238636]">0</span>
                 </div>
             </div>
 
-            <!-- Vulnerability Findings List -->
-            <div>
-                <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-3">
-                    <i class="fas fa-list-check text-blue-400 mr-1.5"></i> Detected Vulnerabilities & Risks
-                </h3>
-                <div id="findings-container" class="space-y-3">
-                    <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800 text-center text-xs text-slate-400">
-                        No vulnerabilities recorded for this session.
-                    </div>
+            <!-- Findings Data Table -->
+            <div class="border border-[#30363d] rounded overflow-hidden mb-5">
+                <div class="bg-[#0d1117] px-3.5 py-2 border-b border-[#30363d] flex items-center justify-between text-xs font-mono">
+                    <span class="font-semibold text-white">TRIAGE TABLE // IDENTIFIED DEFECTS</span>
+                    <span class="text-[#8b949e]" id="table-findings-count">0 items</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-[#161b22] border-b border-[#30363d] font-mono text-[11px] text-[#8b949e]">
+                                <th class="py-2 px-3 border-r border-[#30363d] w-24">SEVERITY</th>
+                                <th class="py-2 px-3 border-r border-[#30363d]">FINDING</th>
+                                <th class="py-2 px-3 border-r border-[#30363d]">AFFECTED RESOURCE</th>
+                                <th class="py-2 px-3 w-32">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody id="findings-tbody" class="divide-y divide-[#21262d] font-mono">
+                            <tr>
+                                <td colspan="4" class="py-4 text-center text-[#8b949e]">No vulnerabilities identified.</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <!-- AI Remediation Details Container (Appears when clicked) -->
-            <div id="ai-remediation-box" class="hidden mt-8 pt-6 border-t border-slate-800">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-sm font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-2">
-                        <i class="fas fa-wand-magic-sparkles"></i> AI Remediation Analysis
-                    </h3>
-                    <button type="button" onclick="document.getElementById('ai-remediation-box').classList.add('hidden')" class="text-xs text-slate-400 hover:text-white">
-                        <i class="fas fa-xmark"></i> Close
+            <!-- Remediation Playbook Panel (Toggled via button) -->
+            <div id="remediation-panel" class="hidden border border-[#30363d] bg-[#0d1117] rounded p-4 text-xs font-mono">
+                <div class="flex items-center justify-between pb-2 mb-3 border-b border-[#21262d]">
+                    <span class="font-semibold text-[#58a6ff] flex items-center gap-2">
+                        <i class="fas fa-wrench"></i> DEFENSIVE REMEDIATION ADVISORY
+                    </span>
+                    <button type="button" onclick="document.getElementById('remediation-panel').classList.add('hidden')" class="text-[#8b949e] hover:text-white">
+                        [Close]
                     </button>
                 </div>
-                <div id="ai-remediation-content" class="bg-slate-900/70 border border-indigo-500/20 rounded-xl p-5 text-sm space-y-4">
-                    <p class="text-slate-400 text-xs">Loading remediation analysis from Gemini engine...</p>
+                <div id="remediation-content" class="space-y-3">
+                    <p class="text-[#8b949e]">Querying remediation context...</p>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 4: Recent Scans History -->
-        <section class="bg-[#0f172a] border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-lg font-bold text-white tracking-tight">Recent Scan History</h2>
-                <button type="button" onclick="loadScanHistory()" class="text-xs font-semibold text-blue-400 hover:text-blue-300 transition flex items-center gap-1.5">
-                    <i class="fas fa-arrows-rotate"></i> Refresh
+        <!-- WORKBENCH 4: Historical Audit Records -->
+        <section class="bg-[#161b22] border border-[#30363d] rounded-lg p-5">
+            <div class="flex items-center justify-between pb-3 mb-3 border-b border-[#21262d]">
+                <h3 class="text-xs font-semibold text-white uppercase tracking-wider font-mono">Audit Execution History</h3>
+                <button type="button" onclick="loadAuditHistory()" class="text-xs font-mono text-[#58a6ff] hover:underline">
+                    [Refresh]
                 </button>
             </div>
-            <div id="scan-history-list" class="space-y-2.5">
-                <p class="text-xs text-slate-500 py-3">Loading previous scans...</p>
+            <div id="history-container" class="space-y-2">
+                <p class="text-xs text-[#8b949e] py-2 font-mono">Loading history records...</p>
             </div>
         </section>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-slate-800/80 bg-[#0b1120] py-6 text-xs text-slate-500">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p>&copy; 2026 CyberGuard Security Suite. Built for authorized ethical security research.</p>
-            <div class="flex items-center gap-4 text-slate-400">
-                <a href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool" target="_blank" class="hover:text-white transition">GitHub Repo</a>
-                <span>&bull;</span>
-                <a href="/api/scans" target="_blank" class="hover:text-white transition">REST APIs</a>
+    <!-- Plain Compliance Footer -->
+    <footer class="border-t border-[#30363d] bg-[#0d1117] py-4 text-xs text-[#8b949e] font-mono">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <span>&copy; 2026 CyberGuard Systems. Automated DAST Audit Daemon.</span>
+            <div class="flex items-center gap-4">
+                <a href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool/blob/main/README.md#terms" target="_blank" class="hover:text-white transition">Terms of Service</a>
+                <a href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool/blob/main/README.md#privacy" target="_blank" class="hover:text-white transition">Privacy Policy</a>
+                <a href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool/blob/main/README.md#security" target="_blank" class="hover:text-white transition">Security Disclosure</a>
             </div>
         </div>
     </footer>
 
-    <!-- Socket.IO & Core Application Script -->
+    <!-- Socket.IO & Core Application Logic -->
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <script>
-        // WebSocket connection
         const socket = io();
         let currentScanId = null;
-        let scanTimerInterval = null;
-        let timerSeconds = 0;
+        let timerInterval = null;
+        let elapsedSeconds = 0;
         let currentScanData = null;
 
-        // Socket.IO Events
+        // WebSocket Handlers
         socket.on('connect', () => {
-            document.getElementById('header-status').textContent = 'Daemon Connected';
-            appendLog('Connected to backend scan daemon.');
+            document.getElementById('daemon-indicator').textContent = 'Daemon: Connected (127.0.0.1:5000)';
+            appendLog('[SYS] WebSocket telemetry connection established.');
         });
 
         socket.on('scan_progress', (data) => {
             if (data.scan_id === currentScanId) {
-                handleProgressUpdate(data);
+                processTelemetryUpdate(data);
             }
         });
 
-        // Preset Handlers
-        function applyPreset(type) {
+        // Preset Segmented Switcher
+        function switchPreset(type) {
+            const tabs = ['fast', 'standard', 'deep'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-preset-${t}`);
+                if (t === type) {
+                    btn.className = 'px-3 py-1 rounded bg-[#21262d] text-white font-medium hover:text-white transition';
+                } else {
+                    btn.className = 'px-3 py-1 rounded text-[#8b949e] hover:text-white transition';
+                }
+            });
+
             const urlInput = document.getElementById('target_url');
             const depthInput = document.getElementById('crawl_depth');
             const startPort = document.getElementById('start_port');
             const endPort = document.getElementById('end_port');
 
-            // Style active preset card
-            document.querySelectorAll('.preset-card').forEach(c => {
-                c.classList.remove('border-blue-500/30', 'bg-blue-500/10', 'text-white');
-                c.classList.add('border-slate-800', 'bg-slate-900/60', 'text-slate-300');
-            });
-
             if (type === 'fast') {
-                document.getElementById('preset-fast').classList.add('border-blue-500/30', 'bg-blue-500/10', 'text-white');
                 urlInput.value = 'http://testphp.vulnweb.com/';
                 depthInput.value = '1';
                 startPort.value = '80';
                 endPort.value = '80';
             } else if (type === 'standard') {
-                document.getElementById('preset-standard').classList.add('border-blue-500/30', 'bg-blue-500/10', 'text-white');
                 depthInput.value = '1';
                 startPort.value = '80';
                 endPort.value = '443';
             } else if (type === 'deep') {
-                document.getElementById('preset-deep').classList.add('border-blue-500/30', 'bg-blue-500/10', 'text-white');
                 depthInput.value = '2';
                 startPort.value = '1';
                 endPort.value = '1024';
             }
         }
 
-        function toggleAdvancedOptions() {
-            const adv = document.getElementById('advanced-options');
-            const icon = document.getElementById('advanced-toggle-icon');
-            if (adv.classList.contains('hidden')) {
-                adv.classList.remove('hidden');
-                icon.classList.add('rotate-90');
-            } else {
-                adv.classList.add('hidden');
-                icon.classList.remove('rotate-90');
-            }
-        }
-
-        // Start Scan Submission
-        async function handleStartScan(e) {
+        // Trigger Execution
+        async function executeAudit(e) {
             e.preventDefault();
 
             const targetUrl = document.getElementById('target_url').value.trim();
@@ -482,23 +412,22 @@
 
             if (!targetUrl) return;
 
-            // UI Transitions
-            const submitBtn = document.getElementById('start-scan-btn');
+            const submitBtn = document.getElementById('btn-submit');
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Starting...';
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs"></i> <span>Initializing...</span>';
 
-            document.getElementById('scan-config-section').classList.add('hidden');
-            document.getElementById('results-section').classList.add('hidden');
-            document.getElementById('progress-section').classList.remove('hidden');
+            document.getElementById('config-panel').classList.add('hidden');
+            document.getElementById('results-panel').classList.add('hidden');
+            document.getElementById('telemetry-panel').classList.remove('hidden');
 
-            document.getElementById('active-target-display').textContent = `Target: ${targetUrl}`;
-            document.getElementById('progress-bar-fill').style.width = '0%';
-            document.getElementById('progress-percentage').textContent = '0%';
-            document.getElementById('current-stage-title').textContent = 'Initializing pipeline...';
+            document.getElementById('live-target-badge').textContent = `Target: ${targetUrl}`;
+            document.getElementById('live-progress-bar').style.width = '0%';
+            document.getElementById('live-progress-pct').textContent = '0%';
+            document.getElementById('live-stage-desc').textContent = 'Initializing test harness...';
 
-            resetStageSteps();
-            clearLiveLogs();
-            startTimer();
+            resetPipelineSteps();
+            clearTelemetryLog();
+            startElapsedTimer();
 
             try {
                 const response = await fetch('/api/scan/start', {
@@ -516,238 +445,236 @@
                 const result = await response.json();
                 if (response.ok) {
                     currentScanId = result.scan_id;
-                    appendLog(`Scan registered with ID: ${currentScanId}`);
-                    pollScanStatus();
+                    appendLog(`[DISPATCH] Task accepted by daemon: ${currentScanId}`);
+                    pollScanState();
                 } else {
-                    appendLog(`Error: ${result.error || 'Failed to start scan'}`);
+                    appendLog(`[ERROR] Task rejected: ${result.error || 'Unknown error'}`);
                     submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<i class="fas fa-play text-xs mr-2"></i> Start Security Scan';
+                    submitBtn.innerHTML = '<i class="fas fa-play text-[10px]"></i> <span>Execute Audit</span>';
                 }
             } catch (err) {
-                appendLog(`Connection Error: ${err.message}`);
+                appendLog(`[FATAL] Network error: ${err.message}`);
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-play text-xs mr-2"></i> Start Security Scan';
+                submitBtn.innerHTML = '<i class="fas fa-play text-[10px]"></i> <span>Execute Audit</span>';
             }
         }
 
-        // Handle Progress Updates
-        function handleProgressUpdate(data) {
-            const progress = data.progress !== undefined ? data.progress : 0;
-            document.getElementById('progress-bar-fill').style.width = `${progress}%`;
-            document.getElementById('progress-percentage').textContent = `${progress}%`;
+        function processTelemetryUpdate(data) {
+            const pct = data.progress !== undefined ? data.progress : 0;
+            document.getElementById('live-progress-bar').style.width = `${pct}%`;
+            document.getElementById('live-progress-pct').textContent = `${pct}%`;
 
             if (data.message) {
-                document.getElementById('current-stage-title').textContent = data.message;
-                appendLog(data.message);
+                document.getElementById('live-stage-desc').textContent = data.message;
+                appendLog(`[${(data.stage || 'RUN').toUpperCase()}] ${data.message}`);
             }
 
-            // Highlight Pipeline Step
-            highlightStageStep(data.stage);
+            updatePipelineStep(data.stage);
 
-            if (data.stage === 'complete' || progress >= 100) {
-                stopTimer();
+            if (data.stage === 'complete' || pct >= 100) {
+                stopElapsedTimer();
                 setTimeout(() => {
-                    showCompletedResults();
-                }, 1200);
+                    renderFinishedResults();
+                }, 1000);
             } else if (data.stage === 'error') {
-                stopTimer();
+                stopElapsedTimer();
             }
         }
 
-        function highlightStageStep(stageName) {
-            const stages = ['crawling', 'port_scanning', 'passive_scanning', 'active_scanning', 'reporting'];
-            const curIdx = stages.indexOf(stageName);
+        function updatePipelineStep(currentStage) {
+            const steps = ['crawling', 'port_scanning', 'passive_scanning', 'active_scanning', 'reporting'];
+            const curIdx = steps.indexOf(currentStage);
 
-            stages.forEach((stg, idx) => {
+            steps.forEach((stg, i) => {
                 const el = document.getElementById(`step-${stg}`);
                 if (!el) return;
-                const icon = el.querySelector('i');
-                const title = el.querySelector('span:first-of-type');
-
-                if (idx < curIdx) {
-                    // Completed
-                    el.className = 'stage-step p-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-center transition';
-                    icon.className = 'fas fa-check text-emerald-400 text-lg mb-1.5 block';
-                    title.className = 'text-xs font-semibold text-emerald-300 block';
-                } else if (idx === curIdx) {
-                    // Active
-                    el.className = 'stage-step p-3 rounded-xl border border-blue-500/50 bg-blue-500/15 text-center transition shadow-lg shadow-blue-500/10';
-                    icon.className = `${icon.className.split(' ')[0]} ${icon.className.split(' ')[1]} text-blue-400 text-lg mb-1.5 block animate-bounce`;
-                    title.className = 'text-xs font-bold text-blue-300 block';
+                if (i < curIdx) {
+                    el.className = 'py-2 bg-[#1f2937] text-[#3fb950] font-semibold';
+                    el.innerHTML = `✓ ${el.textContent.replace(/^✓ |^▶ /, '')}`;
+                } else if (i === curIdx) {
+                    el.className = 'py-2 bg-[#21262d] text-[#58a6ff] font-semibold';
+                    el.innerHTML = `▶ ${el.textContent.replace(/^✓ |^▶ /, '')}`;
                 } else {
-                    // Pending
-                    el.className = 'stage-step p-3 rounded-xl border border-slate-800 bg-slate-900/50 text-center transition';
+                    el.className = 'py-2 text-[#8b949e]';
+                    el.innerHTML = `${el.textContent.replace(/^✓ |^▶ /, '')}`;
                 }
             });
         }
 
-        function resetStageSteps() {
-            const stages = ['crawling', 'port_scanning', 'passive_scanning', 'active_scanning', 'reporting'];
-            const icons = ['fa-spider', 'fa-network-wired', 'fa-shield-virus', 'fa-bug', 'fa-file-invoice'];
-            stages.forEach((stg, i) => {
-                const el = document.getElementById(`step-${stg}`);
+        function resetPipelineSteps() {
+            const steps = [
+                ['crawling', '1. Crawler'],
+                ['port_scanning', '2. Port Scan'],
+                ['passive_scanning', '3. Headers/SSL'],
+                ['active_scanning', '4. Active Fuzzing'],
+                ['reporting', '5. Report Gen']
+            ];
+            steps.forEach(([id, name]) => {
+                const el = document.getElementById(`step-${id}`);
                 if (el) {
-                    el.className = 'stage-step p-3 rounded-xl border border-slate-800 bg-slate-900/50 text-center transition';
-                    el.querySelector('i').className = `fas ${icons[i]} text-slate-500 text-lg mb-1.5 block`;
-                    el.querySelector('span:first-of-type').className = 'text-xs font-semibold text-slate-400 block';
+                    el.className = 'py-2 text-[#8b949e]';
+                    el.textContent = name;
                 }
             });
         }
 
-        // Live Log Helpers
-        function appendLog(msg) {
-            const logsContainer = document.getElementById('live-logs');
+        function appendLog(line) {
+            const logBox = document.getElementById('telemetry-log');
             const time = new Date().toLocaleTimeString();
             const p = document.createElement('p');
-            p.innerHTML = `<span class="text-slate-500">[${time}]</span> ${escapeHtml(msg)}`;
-            logsContainer.appendChild(p);
-            logsContainer.scrollTop = logsContainer.scrollHeight;
+            p.className = 'text-[#c9d1d9]';
+            p.innerHTML = `<span class="text-[#8b949e] font-mono">[${time}]</span> ${escapeHtml(line)}`;
+            logBox.appendChild(p);
+            logBox.scrollTop = logBox.scrollHeight;
         }
 
-        function clearLiveLogs() {
-            document.getElementById('live-logs').innerHTML = '';
+        function clearTelemetryLog() {
+            document.getElementById('telemetry-log').innerHTML = '';
         }
 
-        // Timer
-        function startTimer() {
-            stopTimer();
-            timerSeconds = 0;
-            scanTimerInterval = setInterval(() => {
-                timerSeconds++;
-                const mins = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
-                const secs = String(timerSeconds % 60).padStart(2, '0');
-                document.getElementById('scan-timer').textContent = `${mins}:${secs}`;
+        function startElapsedTimer() {
+            stopElapsedTimer();
+            elapsedSeconds = 0;
+            timerInterval = setInterval(() => {
+                elapsedSeconds++;
+                const mins = String(Math.floor(elapsedSeconds / 60)).padStart(2, '0');
+                const secs = String(elapsedSeconds % 60).padStart(2, '0');
+                document.getElementById('live-timer').textContent = `${mins}:${secs}`;
             }, 1000);
         }
 
-        function stopTimer() {
-            if (scanTimerInterval) {
-                clearInterval(scanTimerInterval);
-                scanTimerInterval = null;
+        function stopElapsedTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
             }
         }
 
-        // Status Polling
-        async function pollScanStatus() {
+        async function pollScanState() {
             if (!currentScanId) return;
             try {
                 const res = await fetch(`/api/scan/${currentScanId}/status`);
                 const status = await res.json();
                 if (status.status === 'complete') {
-                    stopTimer();
-                    showCompletedResults();
+                    stopElapsedTimer();
+                    renderFinishedResults();
                 } else if (status.status === 'error') {
-                    stopTimer();
-                    appendLog(`Scan stopped: ${status.error}`);
+                    stopElapsedTimer();
+                    appendLog(`[FAIL] Runtime error: ${status.error}`);
                 } else {
-                    setTimeout(pollScanStatus, 2000);
+                    setTimeout(pollScanState, 2000);
                 }
-            } catch (e) {
-                setTimeout(pollScanStatus, 4000);
+            } catch (err) {
+                setTimeout(pollScanState, 4000);
             }
         }
 
-        // Display Completed Results
-        async function showCompletedResults() {
-            document.getElementById('progress-section').classList.add('hidden');
-            document.getElementById('results-section').classList.remove('hidden');
+        // Render Results
+        async function renderFinishedResults() {
+            document.getElementById('telemetry-panel').classList.add('hidden');
+            document.getElementById('results-panel').classList.remove('hidden');
 
-            const submitBtn = document.getElementById('start-scan-btn');
+            const submitBtn = document.getElementById('btn-submit');
             submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="fas fa-play text-xs mr-2"></i> Start Security Scan';
+            submitBtn.innerHTML = '<i class="fas fa-play text-[10px]"></i> <span>Execute Audit</span>';
 
             try {
                 const res = await fetch(`/api/scan/${currentScanId}/data`);
                 if (!res.ok) return;
                 currentScanData = await res.json();
 
-                // Extract Metrics
-                const pagesCount = currentScanData.crawl_results ? (currentScanData.crawl_results.pages || []).length : 0;
-                const portsCount = (currentScanData.port_scan_results || []).length;
-                const activeFindings = currentScanData.active_scan_findings || [];
-                const passiveResults = currentScanData.passive_scan_results || {};
-                const grade = (passiveResults.grade && passiveResults.grade.grade) ? passiveResults.grade.grade : 'B';
+                const pages = currentScanData.crawl_results ? (currentScanData.crawl_results.pages || []).length : 0;
+                const ports = (currentScanData.port_scan_results || []).length;
+                const active = currentScanData.active_scan_findings || [];
+                const passive = currentScanData.passive_scan_results || {};
+                const grade = (passive.grade && passive.grade.grade) ? passive.grade.grade : 'B';
 
                 document.getElementById('metric-grade').textContent = grade;
-                document.getElementById('metric-pages').textContent = pagesCount;
-                document.getElementById('metric-ports').textContent = portsCount;
+                document.getElementById('metric-pages').textContent = pages;
+                document.getElementById('metric-ports').textContent = ports;
 
-                // Colorize Grade
+                // Colorize grade
                 const gradeEl = document.getElementById('metric-grade');
-                if (grade === 'A' || grade === 'B') gradeEl.className = 'text-3xl font-extrabold text-emerald-400 font-mono';
-                else if (grade === 'F') gradeEl.className = 'text-3xl font-extrabold text-rose-400 font-mono';
-                else gradeEl.className = 'text-3xl font-extrabold text-amber-400 font-mono';
+                if (grade === 'A' || grade === 'B') gradeEl.className = 'text-lg font-bold text-[#3fb950]';
+                else if (grade === 'F') gradeEl.className = 'text-lg font-bold text-[#f85149]';
+                else gradeEl.className = 'text-lg font-bold text-[#d29922]';
 
-                // Populate Findings
-                const findingsContainer = document.getElementById('findings-container');
-                findingsContainer.innerHTML = '';
+                const missingHeaders = passive.missing_headers || [];
+                const totalVulns = active.length + missingHeaders.length;
+                document.getElementById('metric-vulns').textContent = totalVulns;
+                document.getElementById('table-findings-count').textContent = `${totalVulns} items detected`;
 
-                const totalFindings = activeFindings.length + (passiveResults.missing_headers || []).length;
-                document.getElementById('metric-vulns').textContent = totalFindings;
+                const tbody = document.getElementById('findings-tbody');
+                tbody.innerHTML = '';
 
-                if (totalFindings === 0) {
-                    findingsContainer.innerHTML = `
-                        <div class="p-6 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-center">
-                            <i class="fas fa-circle-check text-emerald-400 text-2xl mb-2"></i>
-                            <h4 class="font-bold text-emerald-300 text-sm">Target Clean: Zero Flaws Detected</h4>
-                            <p class="text-xs text-slate-400 mt-1">No SQL injection, XSS vectors, or high-risk missing headers were found on the audited surface.</p>
-                        </div>
+                if (totalVulns === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="py-4 text-center text-[#3fb950]">
+                                ✓ Perimeter Clean: No exploitable vulnerabilities detected.
+                            </td>
+                        </tr>
                     `;
                 } else {
-                    // Active findings (Critical / High)
-                    activeFindings.forEach(f => {
-                        const isSqli = f.type.toLowerCase().includes('sql');
-                        const card = document.createElement('div');
-                        card.className = 'p-4 rounded-xl bg-slate-900 border border-rose-500/30 flex flex-col gap-2';
-                        card.innerHTML = `
-                            <div class="flex items-center justify-between flex-wrap gap-2">
-                                <div class="flex items-center gap-2">
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-rose-500/20 text-rose-400 border border-rose-500/40">Critical</span>
-                                    <h4 class="font-bold text-white text-sm">${escapeHtml(f.type)}</h4>
-                                </div>
-                                <span class="text-xs font-mono text-slate-400">${escapeHtml(f.method || 'GET')}</span>
-                            </div>
-                            <div class="text-xs font-mono text-slate-300 bg-slate-950 px-3 py-1.5 rounded border border-slate-800 break-all">
-                                ${escapeHtml(f.url)} ${f.param ? `<span class="text-rose-400">?${escapeHtml(f.param)}=payload</span>` : ''}
-                            </div>
-                            <p class="text-xs text-slate-400">Parameter: <strong class="text-slate-200">${escapeHtml(f.param || 'N/A')}</strong></p>
+                    // Active injection findings
+                    active.forEach((f, i) => {
+                        const tr = document.createElement('tr');
+                        tr.className = 'hover:bg-[#0d1117] transition-colors';
+                        tr.innerHTML = `
+                            <td class="py-2 px-3 border-r border-[#30363d]">
+                                <span class="px-1.5 py-0.5 rounded bg-[#b62324]/20 border border-[#b62324]/40 text-[#ff7b72] font-semibold text-[10px]">CRITICAL</span>
+                            </td>
+                            <td class="py-2 px-3 border-r border-[#30363d] text-white font-medium">
+                                ${escapeHtml(f.type)}
+                            </td>
+                            <td class="py-2 px-3 border-r border-[#30363d] text-[#c9d1d9]">
+                                ${escapeHtml(f.method || 'GET')} ${escapeHtml(f.url)}
+                                ${f.param ? `<span class="text-[#8b949e]">(${escapeHtml(f.param)})</span>` : ''}
+                            </td>
+                            <td class="py-2 px-3">
+                                <button type="button" onclick="copyCurl('${escapeHtml(f.url)}')" class="text-[#58a6ff] hover:underline">[Copy cURL]</button>
+                            </td>
                         `;
-                        findingsContainer.appendChild(card);
+                        tbody.appendChild(tr);
                     });
 
-                    // Passive findings (Medium / Insecure headers)
-                    (passiveResults.missing_headers || []).forEach(h => {
-                        const card = document.createElement('div');
-                        card.className = 'p-4 rounded-xl bg-slate-900 border border-amber-500/30 flex flex-col gap-2';
-                        card.innerHTML = `
-                            <div class="flex items-center justify-between flex-wrap gap-2">
-                                <div class="flex items-center gap-2">
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-500/20 text-amber-400 border border-amber-500/40">Medium</span>
-                                    <h4 class="font-bold text-white text-sm">Missing Security Header</h4>
-                                </div>
-                                <span class="text-xs font-mono text-slate-400">${escapeHtml(h)}</span>
-                            </div>
-                            <p class="text-xs text-slate-400">The server does not send the <code class="text-slate-200 bg-slate-950 px-1 py-0.5 rounded">${escapeHtml(h)}</code> response header.</p>
+                    // Missing headers
+                    missingHeaders.forEach((h, i) => {
+                        const tr = document.createElement('tr');
+                        tr.className = 'hover:bg-[#0d1117] transition-colors';
+                        tr.innerHTML = `
+                            <td class="py-2 px-3 border-r border-[#30363d]">
+                                <span class="px-1.5 py-0.5 rounded bg-[#9e6a03]/20 border border-[#9e6a03]/40 text-[#d29922] font-semibold text-[10px]">MEDIUM</span>
+                            </td>
+                            <td class="py-2 px-3 border-r border-[#30363d] text-white font-medium">
+                                Missing Security Header: ${escapeHtml(h)}
+                            </td>
+                            <td class="py-2 px-3 border-r border-[#30363d] text-[#8b949e]">
+                                Global Proxy Policy
+                            </td>
+                            <td class="py-2 px-3 text-[#8b949e]">
+                                Enforce in web server
+                            </td>
                         `;
-                        findingsContainer.appendChild(card);
+                        tbody.appendChild(tr);
                     });
                 }
 
-                loadScanHistory();
+                loadAuditHistory();
             } catch (err) {
-                console.error('Error fetching scan data:', err);
+                console.error(err);
             }
         }
 
-        // AI Remediation
-        async function fetchAIRemediation() {
+        // Remediation Playbook (Clean technical drawer)
+        async function triggerRemediation() {
             if (!currentScanId || !currentScanData) return;
-            const aiBox = document.getElementById('ai-remediation-box');
-            const aiContent = document.getElementById('ai-remediation-content');
+            const panel = document.getElementById('remediation-panel');
+            const content = document.getElementById('remediation-content');
 
-            aiBox.classList.remove('hidden');
-            aiContent.innerHTML = '<p class="text-xs text-slate-400 flex items-center gap-2"><i class="fas fa-spinner fa-spin"></i> Consulting Gemini AI remediation engine for code fixes...</p>';
-            aiBox.scrollIntoView({ behavior: 'smooth' });
+            panel.classList.remove('hidden');
+            content.innerHTML = '<p class="text-[#8b949e]">[SYS] Querying remediation engine for patch playbook...</p>';
+            panel.scrollIntoView({ behavior: 'smooth' });
 
             try {
                 const payload = Object.assign({}, currentScanData, { provider: 'gemini' });
@@ -759,39 +686,34 @@
 
                 if (!res.ok) {
                     const err = await res.json();
-                    throw new Error(err.error || 'AI analysis unavailable');
+                    throw new Error(err.error || 'Remediation engine unavailable');
                 }
 
                 const data = await res.json();
-                renderRemediationResults(data);
+                renderRemediationPlaybook(data);
             } catch (e) {
-                aiContent.innerHTML = `
-                    <div class="text-rose-400 text-xs">
-                        <p class="font-bold mb-1"><i class="fas fa-triangle-exclamation mr-1"></i> AI Remediation Notice</p>
+                content.innerHTML = `
+                    <div class="text-[#ff7b72] space-y-1">
+                        <p class="font-bold">Playbook Generation Notice:</p>
                         <p>${escapeHtml(e.message)}</p>
-                        <p class="text-slate-400 mt-2">Ensure your GEMINI_API_KEY is configured in the project .env file if using live Gemini API.</p>
+                        <p class="text-[#8b949e] text-[11px] pt-1">Verify that your GEMINI_API_KEY is configured in the environment if querying live Gemini models.</p>
                     </div>
                 `;
             }
         }
 
-        function renderRemediationResults(data) {
-            const aiContent = document.getElementById('ai-remediation-content');
-            let html = `
-                <div class="border-b border-slate-800 pb-3 mb-3">
-                    <h4 class="font-bold text-white text-sm">Gemini AI Executive Recommendations</h4>
-                    <p class="text-xs text-slate-400 mt-1">Review the architectural guidance below to resolve detected vulnerabilities.</p>
-                </div>
-            `;
+        function renderRemediationPlaybook(data) {
+            const content = document.getElementById('remediation-content');
+            let html = '<div class="space-y-3">';
 
             if (data.active_vulnerabilities && data.active_vulnerabilities.length > 0) {
                 data.active_vulnerabilities.forEach((v, i) => {
                     html += `
-                        <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-xs space-y-1.5">
-                            <span class="font-bold text-rose-400 uppercase">#${i + 1} ${escapeHtml(v.type)}</span>
-                            <p class="text-slate-300 font-medium">${escapeHtml(v.remediation ? v.remediation.summary : 'Sanitize input.')}</p>
+                        <div class="p-3 bg-[#161b22] border border-[#30363d] rounded space-y-1">
+                            <span class="text-[#ff7b72] font-semibold uppercase">[DEFECT #${i + 1}] ${escapeHtml(v.type)}</span>
+                            <p class="text-white">${escapeHtml(v.remediation ? v.remediation.summary : 'Sanitize input.')}</p>
                             ${v.remediation && v.remediation.details ? `
-                                <ul class="list-disc list-inside text-slate-400 pl-1">
+                                <ul class="list-disc list-inside text-[#8b949e] text-[11px] pt-1 space-y-0.5">
                                     ${v.remediation.details.map(d => `<li>${escapeHtml(d)}</li>`).join('')}
                                 </ul>
                             ` : ''}
@@ -799,56 +721,64 @@
                     `;
                 });
             } else {
-                html += '<p class="text-xs text-emerald-400">All scanned parameters meet basic security validation standards.</p>';
+                html += '<p class="text-[#3fb950]">No active defects requiring patch generation.</p>';
             }
 
-            aiContent.innerHTML = html;
+            html += '</div>';
+            content.innerHTML = html;
         }
 
-        function openFullReport() {
+        function openReportWindow() {
             if (currentScanId) {
                 window.open(`/api/scan/${currentScanId}/report`, '_blank');
             }
         }
 
-        function resetToNewScan() {
-            document.getElementById('results-section').classList.add('hidden');
-            document.getElementById('progress-section').classList.add('hidden');
-            document.getElementById('scan-config-section').classList.remove('hidden');
+        function startNewAudit() {
+            document.getElementById('results-panel').classList.add('hidden');
+            document.getElementById('telemetry-panel').classList.add('hidden');
+            document.getElementById('config-panel').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Recent Scans History
-        async function loadScanHistory() {
-            const listEl = document.getElementById('scan-history-list');
+        function copyCurl(url) {
+            const cmd = `curl -ik -s -X GET "${url}"`;
+            navigator.clipboard.writeText(cmd).then(() => {
+                alert('Copied vector to clipboard:\n' + cmd);
+            });
+        }
+
+        // Audit History
+        async function loadAuditHistory() {
+            const container = document.getElementById('history-container');
             try {
                 const res = await fetch('/api/scans');
                 const data = await res.json();
 
                 if (!data.scans || data.scans.length === 0) {
-                    listEl.innerHTML = '<p class="text-xs text-slate-500 py-3">No scans recorded yet.</p>';
+                    container.innerHTML = '<p class="text-xs text-[#8b949e] font-mono py-1">No historical scan entries found.</p>';
                     return;
                 }
 
-                listEl.innerHTML = data.scans.map(s => {
+                container.innerHTML = data.scans.map(s => {
                     const dateStr = s.start_time ? new Date(s.start_time).toLocaleString() : 'Recent';
                     const isDone = s.status === 'complete' || !!s.summary;
-                    const vulnTxt = s.summary ? `${s.summary.vulnerabilities} Vulns` : '0 Vulns';
-                    const gradeTxt = s.summary ? `Grade: ${s.summary.grade}` : '';
+                    const vulns = s.summary ? `${s.summary.vulnerabilities} defects` : '0 defects';
+                    const grade = s.summary ? `Grade: ${s.summary.grade}` : '';
 
                     return `
-                        <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-800/80 hover:border-slate-700 transition flex items-center justify-between gap-3 text-xs">
+                        <div class="p-2.5 bg-[#0d1117] border border-[#30363d] rounded flex items-center justify-between text-xs font-mono">
                             <div class="truncate">
-                                <span class="font-mono text-white font-medium block truncate">${escapeHtml(s.target_url)}</span>
-                                <span class="text-[11px] text-slate-500 mt-0.5 block">${dateStr} &bull; ${vulnTxt} ${gradeTxt ? `&bull; ${gradeTxt}` : ''}</span>
+                                <span class="text-white font-medium block truncate">${escapeHtml(s.target_url)}</span>
+                                <span class="text-[11px] text-[#8b949e]">${dateStr} &bull; ${vulns} ${grade ? `&bull; ${grade}` : ''}</span>
                             </div>
                             <div class="flex items-center gap-2 shrink-0">
-                                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase ${isDone ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-blue-500/10 text-blue-400'}">
-                                    ${isDone ? 'Completed' : 'Running'}
+                                <span class="px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase ${isDone ? 'bg-[#238636]/20 text-[#3fb950]' : 'bg-[#1f6feb]/20 text-[#58a6ff]'}">
+                                    ${isDone ? 'COMPLETE' : 'ACTIVE'}
                                 </span>
                                 ${isDone ? `
                                     <button type="button" onclick="window.open('/api/scan/${s.scan_id}/report', '_blank')" 
-                                            class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs font-medium transition">
+                                            class="px-2 py-0.5 border border-[#30363d] hover:border-[#8b949e] text-white rounded text-[11px] transition">
                                         Report
                                     </button>
                                 ` : ''}
@@ -856,8 +786,8 @@
                         </div>
                     `;
                 }).join('');
-            } catch (e) {
-                console.error(e);
+            } catch (err) {
+                console.error(err);
             }
         }
 
@@ -868,8 +798,8 @@
             return d.innerHTML;
         }
 
-        // Initialize on load
-        loadScanHistory();
+        // Initialize history on load
+        loadAuditHistory();
     </script>
 </body>
 </html>
