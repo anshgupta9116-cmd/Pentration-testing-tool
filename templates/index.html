@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberGuard // Application Security Workbench</title>
+    <title>CyberGuard // Impeccable Security Workbench</title>
     
-    <!-- Professional Typography -->
+    <!-- Typography: Inter + JetBrains Mono (Watermelon UI standard) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <!-- FontAwesome 6 (for functional glyphs) -->
+    <!-- FontAwesome for precise glyphs -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- Tailwind CSS (Utility Framework) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -21,17 +21,14 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"IBM Plex Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-                        mono: ['"IBM Plex Mono"', 'Consolas', 'monospace'],
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
-                        surface: {
-                            base: '#0d1117',
-                            panel: '#161b22',
-                            panelHover: '#1c2128',
-                            border: '#30363d',
-                            borderMuted: '#21262d',
-                            input: '#090d12',
+                        zinc: {
+                            850: '#1f1f23',
+                            900: '#18181b',
+                            950: '#09090b',
                         }
                     }
                 }
@@ -40,342 +37,346 @@
     </script>
     <style>
         body {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #09090b;
+            color: #f4f4f5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            letter-spacing: -0.01em;
         }
-        /* Strict flat ergonomics - No blurry dropshadows */
+        /* Impeccable flat tokens */
         * {
             box-shadow: none !important;
         }
-        /* Clean terminal scrollbar */
+        /* Custom precision scrollbar */
         ::-webkit-scrollbar {
             width: 5px;
             height: 5px;
         }
         ::-webkit-scrollbar-track {
-            background: #0d1117;
+            background: #09090b;
         }
         ::-webkit-scrollbar-thumb {
-            background: #30363d;
-            border-radius: 2px;
+            background: #27272a;
+            border-radius: 9999px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #484f58;
+            background: #3f3f46;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-[#1f6feb] selection:text-white text-[13px]">
+<body class="min-h-screen flex flex-col antialiased selection:bg-zinc-800 selection:text-white text-[13px]">
 
-    <!-- Top Application Navigation Bar -->
-    <header class="sticky top-0 z-50 bg-[#161b22] border-b border-[#30363d]">
-        <div class="max-w-7xl mx-auto px-4 h-12 flex items-center justify-between">
-            <!-- Brand & Metadata -->
+    <!-- Top Navigation Bar (Watermelon UI Style) -->
+    <header class="sticky top-0 z-50 bg-[#09090b]/80 backdrop-blur-md border-b border-zinc-800/80">
+        <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+            <!-- Brand -->
             <div class="flex items-center gap-3">
-                <div class="w-6 h-6 rounded bg-[#238636] flex items-center justify-center text-white text-xs">
-                    <i class="fas fa-shield-halved"></i>
+                <div class="w-7 h-7 rounded-lg bg-zinc-100 flex items-center justify-center text-zinc-950 font-bold text-xs">
+                    <i class="fas fa-shield-halved text-[13px]"></i>
                 </div>
                 <div class="flex items-center gap-2">
-                    <span class="font-semibold text-white tracking-tight">CyberGuard</span>
-                    <span class="text-[11px] font-mono text-[#8b949e]">v2.6.4</span>
-                    <span class="text-[#30363d]">/</span>
-                    <span class="text-[11px] font-mono text-[#8b949e]">DAST Inspector</span>
+                    <span class="font-semibold text-zinc-100 tracking-tight text-sm">CyberGuard</span>
+                    <span class="text-[11px] font-mono text-zinc-400 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded-md">v2.6.4</span>
+                    <span class="text-zinc-600">/</span>
+                    <span class="text-xs text-zinc-400 hidden sm:inline">DAST Security Suite</span>
                 </div>
             </div>
 
-            <!-- Daemon & Session State -->
-            <div class="flex items-center gap-4 text-xs font-mono">
-                <div class="flex items-center gap-2 text-[#8b949e]">
-                    <span class="w-2 h-2 rounded-full bg-[#238636]"></span>
-                    <span id="daemon-indicator">Daemon: 127.0.0.1:5000</span>
+            <!-- Daemon State & Actions -->
+            <div class="flex items-center gap-3 text-xs">
+                <div class="flex items-center gap-2 px-2.5 py-1 rounded-full border border-zinc-800 bg-zinc-900/60 text-zinc-400 font-mono text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    <span id="daemon-status">Daemon: 127.0.0.1:5000</span>
                 </div>
-                <div class="h-3 w-[1px] bg-[#30363d] hidden sm:block"></div>
-                <div class="hidden sm:flex items-center gap-3 text-[#8b949e]">
-                    <a href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool" target="_blank" class="hover:text-white transition flex items-center gap-1.5">
-                        <i class="fab fa-github"></i> Repository
-                    </a>
-                    <a href="/api/scans" target="_blank" class="hover:text-white transition">API</a>
-                </div>
+                <div class="h-3 w-[1px] bg-zinc-800 hidden sm:block"></div>
+                <a href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool" target="_blank" 
+                   class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800 text-zinc-300 hover:text-white transition text-xs font-medium">
+                    <i class="fab fa-github"></i>
+                    <span>Repository</span>
+                </a>
             </div>
         </div>
     </header>
 
-    <!-- Main Workspace -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6 flex flex-col gap-6">
+    <!-- Main App Container -->
+    <main class="flex-1 max-w-6xl w-full mx-auto px-4 py-8 flex flex-col gap-6">
 
-        <!-- WORKBENCH 1: Audit Scope & Target Controller -->
-        <section id="config-panel" class="bg-[#161b22] border border-[#30363d] rounded-lg p-5">
-            <!-- Card Header -->
-            <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-[#21262d]">
+        <!-- COMPONENT 1: Target Scope Controller Card -->
+        <section id="config-card" class="rounded-xl border border-zinc-800/80 bg-zinc-950 p-6">
+            <!-- Header & Presets Row -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-5 border-b border-zinc-800/80">
                 <div>
-                    <h1 class="text-base font-semibold text-white">Target Scope & Configuration</h1>
-                    <p class="text-xs text-[#8b949e] mt-0.5">Define target hostname, crawling depth, and automated injection fuzzing parameters.</p>
+                    <h1 class="text-base font-semibold text-zinc-100">Vulnerability Assessment Target</h1>
+                    <p class="text-xs text-zinc-400 mt-0.5">Specify target hostname, crawl depth, and port ranges for automated fuzzing.</p>
                 </div>
-                
-                <!-- Compact Segmented Preset Switcher (Replaces the 3 bulky cards) -->
-                <div class="inline-flex rounded border border-[#30363d] bg-[#0d1117] p-0.5 font-mono text-xs">
-                    <button type="button" id="tab-preset-fast" onclick="switchPreset('fast')" 
-                            class="px-3 py-1 rounded bg-[#21262d] text-white font-medium hover:text-white transition">
+
+                <!-- Watermelon Segmented Tab Control -->
+                <div class="inline-flex h-9 items-center justify-center rounded-lg bg-zinc-900 p-1 text-zinc-400 border border-zinc-800/80 font-mono text-xs">
+                    <button type="button" id="tab-fast" onclick="selectProfile('fast')" 
+                            class="rounded-md bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-100 transition">
                         Quick Bench (1m)
                     </button>
-                    <button type="button" id="tab-preset-standard" onclick="switchPreset('standard')" 
-                            class="px-3 py-1 rounded text-[#8b949e] hover:text-white transition">
-                        Standard (80/443)
+                    <button type="button" id="tab-standard" onclick="selectProfile('standard')" 
+                            class="rounded-md px-3 py-1 text-xs font-medium text-zinc-400 hover:text-zinc-200 transition">
+                        Standard Web (80/443)
                     </button>
-                    <button type="button" id="tab-preset-deep" onclick="switchPreset('deep')" 
-                            class="px-3 py-1 rounded text-[#8b949e] hover:text-white transition">
+                    <button type="button" id="tab-deep" onclick="selectProfile('deep')" 
+                            class="rounded-md px-3 py-1 text-xs font-medium text-zinc-400 hover:text-zinc-200 transition">
                         Full Ports (1-1024)
                     </button>
                 </div>
             </div>
 
-            <!-- Configuration Form -->
-            <form id="audit-form" onsubmit="executeAudit(event)">
+            <!-- Form -->
+            <form id="scan-form" onsubmit="handleStartScan(event)">
                 <div class="flex flex-col gap-4">
-                    <!-- URL Input Row -->
+                    <!-- Target Input Bar -->
                     <div>
-                        <label for="target_url" class="block text-xs font-semibold text-[#8b949e] uppercase tracking-wider mb-1.5 font-mono">
-                            Target Hostname / Endpoint
+                        <label for="target_url" class="block text-[11px] font-mono text-zinc-400 uppercase tracking-wider mb-1.5">
+                            Target Endpoint URL
                         </label>
-                        <div class="flex gap-2">
+                        <div class="flex flex-col sm:flex-row gap-2">
                             <input type="text" id="target_url" name="target_url" 
                                    value="http://testphp.vulnweb.com/" 
-                                   placeholder="http://example.com or https://target-host.local" 
+                                   placeholder="http://example.com or https://staging.app.local" 
                                    required
-                                   class="flex-1 bg-[#090d12] text-white font-mono text-xs px-3.5 py-2.5 rounded border border-[#30363d] focus:border-[#58a6ff] focus:outline-none">
+                                   class="flex-1 h-10 rounded-md border border-zinc-800 bg-zinc-900/60 px-3.5 text-xs text-zinc-100 font-mono placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-400 transition">
                             
+                            <!-- Impeccable Solid Primary Button (Signature Watermelon/shadcn white button) -->
                             <button type="submit" id="btn-submit" 
-                                    class="px-5 py-2.5 bg-[#238636] hover:bg-[#2ea043] text-white font-semibold text-xs rounded transition flex items-center gap-2 shrink-0">
+                                    class="h-10 px-5 bg-zinc-100 hover:bg-zinc-200 text-zinc-950 font-semibold text-xs rounded-md transition flex items-center justify-center gap-2 shrink-0 cursor-pointer">
                                 <i class="fas fa-play text-[10px]"></i>
                                 <span>Execute Audit</span>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Dense Technical Parameters Grid -->
-                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 pt-2 border-t border-[#21262d]">
-                        <!-- Depth -->
-                        <div>
-                            <label for="crawl_depth" class="block text-[11px] font-mono text-[#8b949e] mb-1">CRAWL DEPTH (1-5)</label>
-                            <input type="number" id="crawl_depth" min="1" max="5" value="1" 
-                                   class="w-full bg-[#090d12] text-white font-mono text-xs px-3 py-1.5 rounded border border-[#30363d] focus:border-[#58a6ff] focus:outline-none">
-                        </div>
+                    <!-- Collapsible Advanced Options -->
+                    <div class="pt-2 border-t border-zinc-800/60">
+                        <button type="button" onclick="toggleAdvanced()" 
+                                class="flex items-center gap-1.5 text-xs font-medium text-zinc-400 hover:text-zinc-200 transition py-1">
+                            <i id="adv-chevron" class="fas fa-chevron-right text-[10px] transition-transform"></i>
+                            <span>Advanced Parameters (Crawl Depth, Port Ranges, Non-Destructive PoC)</span>
+                        </button>
 
-                        <!-- Start Port -->
-                        <div>
-                            <label for="start_port" class="block text-[11px] font-mono text-[#8b949e] mb-1">START PORT</label>
-                            <input type="number" id="start_port" min="1" max="65535" value="80" 
-                                   class="w-full bg-[#090d12] text-white font-mono text-xs px-3 py-1.5 rounded border border-[#30363d] focus:border-[#58a6ff] focus:outline-none">
-                        </div>
-
-                        <!-- End Port -->
-                        <div>
-                            <label for="end_port" class="block text-[11px] font-mono text-[#8b949e] mb-1">END PORT</label>
-                            <input type="number" id="end_port" min="1" max="65535" value="80" 
-                                   class="w-full bg-[#090d12] text-white font-mono text-xs px-3 py-1.5 rounded border border-[#30363d] focus:border-[#58a6ff] focus:outline-none">
-                        </div>
-
-                        <!-- PoC Validation Toggle -->
-                        <div class="flex items-end pb-1">
-                            <label class="flex items-center gap-2 cursor-pointer text-xs text-[#c9d1d9]">
-                                <input type="checkbox" id="run_poc" class="rounded border-[#30363d] bg-[#090d12] text-[#238636] focus:ring-0">
-                                <span>Validate Non-Destructive PoC</span>
-                            </label>
+                        <div id="adv-panel" class="hidden mt-3 pt-3 border-t border-zinc-800/40 grid grid-cols-1 sm:grid-cols-4 gap-3">
+                            <div>
+                                <label for="crawl_depth" class="block text-[11px] font-mono text-zinc-400 mb-1">CRAWL DEPTH (1-5)</label>
+                                <input type="number" id="crawl_depth" min="1" max="5" value="1" 
+                                       class="w-full h-8 rounded-md border border-zinc-800 bg-zinc-900/60 px-3 text-xs font-mono text-zinc-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-400">
+                            </div>
+                            <div>
+                                <label for="start_port" class="block text-[11px] font-mono text-zinc-400 mb-1">START PORT</label>
+                                <input type="number" id="start_port" min="1" max="65535" value="80" 
+                                       class="w-full h-8 rounded-md border border-zinc-800 bg-zinc-900/60 px-3 text-xs font-mono text-zinc-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-400">
+                            </div>
+                            <div>
+                                <label for="end_port" class="block text-[11px] font-mono text-zinc-400 mb-1">END PORT</label>
+                                <input type="number" id="end_port" min="1" max="65535" value="80" 
+                                       class="w-full h-8 rounded-md border border-zinc-800 bg-zinc-900/60 px-3 text-xs font-mono text-zinc-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-400">
+                            </div>
+                            <div class="flex items-end pb-1">
+                                <label class="flex items-center gap-2 cursor-pointer text-xs text-zinc-300">
+                                    <input type="checkbox" id="run_poc" class="rounded border-zinc-800 bg-zinc-900 text-zinc-100 focus:ring-0">
+                                    <span>Interactive PoC Check</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
             </form>
         </section>
 
-        <!-- WORKBENCH 2: Real-time Execution Diagnostics (Visible during running audit) -->
-        <section id="telemetry-panel" class="hidden bg-[#161b22] border border-[#30363d] rounded-lg p-5">
-            <!-- Header Status Bar -->
-            <div class="flex flex-wrap items-center justify-between gap-3 pb-3 mb-4 border-b border-[#21262d]">
+        <!-- COMPONENT 2: Execution Telemetry (Visible when scan starts) -->
+        <section id="telemetry-card" class="hidden rounded-xl border border-zinc-800/80 bg-zinc-950 p-6 flex flex-col gap-5">
+            <!-- Status Header -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-zinc-800/80">
                 <div class="flex items-center gap-3">
-                    <span class="w-2 h-2 rounded-full bg-[#58a6ff] animate-ping"></span>
-                    <span class="font-semibold text-white text-sm" id="live-stage-desc">Running Scan Engine...</span>
-                    <span class="text-xs font-mono text-[#8b949e]" id="live-target-badge">Target: http://testphp.vulnweb.com/</span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="font-semibold text-zinc-100 text-sm" id="telemetry-stage-title">Executing Assessment...</span>
+                    <span class="text-xs font-mono text-zinc-400 bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded" id="telemetry-target-label">Target: testphp.vulnweb.com</span>
                 </div>
-                <div class="flex items-center gap-3 text-xs font-mono">
-                    <span class="text-[#8b949e]">Elapsed: <strong class="text-white" id="live-timer">00:00</strong></span>
-                    <span class="text-[#30363d]">|</span>
-                    <span class="text-[#58a6ff] font-bold" id="live-progress-pct">0%</span>
+                <div class="flex items-center gap-3 text-xs font-mono text-zinc-400">
+                    <span>Elapsed: <strong class="text-zinc-100 font-semibold" id="telemetry-elapsed">00:00</strong></span>
+                    <span class="text-zinc-700">|</span>
+                    <span class="text-zinc-100 font-semibold" id="telemetry-pct">0%</span>
                 </div>
             </div>
 
-            <!-- Linear Progress Strip -->
-            <div class="w-full h-1.5 bg-[#090d12] rounded overflow-hidden mb-4 border border-[#21262d]">
-                <div id="live-progress-bar" class="h-full bg-[#238636] transition-all duration-300" style="width: 0%"></div>
-            </div>
-
-            <!-- Pipeline Stepper Tracker -->
-            <div class="grid grid-cols-5 text-center text-xs font-mono border border-[#30363d] bg-[#0d1117] rounded mb-4 divide-x divide-[#30363d]">
-                <div id="step-crawling" class="py-2 text-[#8b949e]">1. Crawler</div>
-                <div id="step-port_scanning" class="py-2 text-[#8b949e]">2. Port Scan</div>
-                <div id="step-passive_scanning" class="py-2 text-[#8b949e]">3. Headers/SSL</div>
-                <div id="step-active_scanning" class="py-2 text-[#8b949e]">4. Active Fuzzing</div>
-                <div id="step-reporting" class="py-2 text-[#8b949e]">5. Report Gen</div>
-            </div>
-
-            <!-- Plain Developer Console Stream -->
-            <div class="bg-[#090d12] border border-[#30363d] rounded p-3">
-                <div class="flex items-center justify-between pb-2 mb-2 border-b border-[#21262d] text-[11px] font-mono text-[#8b949e]">
-                    <span>STDOUT // TELEMETRY STREAM</span>
-                    <button type="button" onclick="clearTelemetryLog()" class="hover:text-white transition">[Clear Log]</button>
+            <!-- Linear Watermelon Progress Bar -->
+            <div>
+                <div class="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden border border-zinc-800/80">
+                    <div id="telemetry-progress-fill" class="h-full bg-zinc-100 transition-all duration-300" style="width: 0%"></div>
                 </div>
-                <div id="telemetry-log" class="h-44 overflow-y-auto font-mono text-xs space-y-1 text-[#8b949e]">
-                    <p class="text-[#8b949e]">[SYS] Engine initialized. Awaiting pipeline worker feedback...</p>
+            </div>
+
+            <!-- Stepper Indicators -->
+            <div class="grid grid-cols-5 text-center text-xs font-mono rounded-lg border border-zinc-800 bg-zinc-900/40 p-1 divide-x divide-zinc-800/80">
+                <div id="step-crawling" class="py-1.5 text-zinc-500">1. Spider</div>
+                <div id="step-port_scanning" class="py-1.5 text-zinc-500">2. Port Probing</div>
+                <div id="step-passive_scanning" class="py-1.5 text-zinc-500">3. Headers/SSL</div>
+                <div id="step-active_scanning" class="py-1.5 text-zinc-500">4. Active Fuzzing</div>
+                <div id="step-reporting" class="py-1.5 text-zinc-500">5. Synthesis</div>
+            </div>
+
+            <!-- Console Log Window -->
+            <div class="rounded-lg border border-zinc-800 bg-[#09090b] p-3 font-mono text-xs">
+                <div class="flex items-center justify-between pb-2 mb-2 border-b border-zinc-800/80 text-[11px] text-zinc-500">
+                    <span>RUNTIME TELEMETRY STREAM</span>
+                    <button type="button" onclick="clearLogs()" class="hover:text-zinc-300 transition">[Clear]</button>
+                </div>
+                <div id="telemetry-logs-box" class="h-44 overflow-y-auto space-y-1 text-zinc-400">
+                    <p class="text-zinc-600">[SYS] Diagnostic daemon initialized. Awaiting pipeline stream...</p>
                 </div>
             </div>
         </section>
 
-        <!-- WORKBENCH 3: Triage & Audit Findings (Visible when scan completes) -->
-        <section id="results-panel" class="hidden bg-[#161b22] border border-[#30363d] rounded-lg p-5">
+        <!-- COMPONENT 3: Triage & Findings Workbench (Visible when scan finishes) -->
+        <section id="results-card" class="hidden rounded-xl border border-zinc-800/80 bg-zinc-950 p-6 flex flex-col gap-6">
             <!-- Header & Action Row -->
-            <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-[#21262d]">
+            <div class="flex flex-wrap items-center justify-between gap-4 pb-5 border-b border-zinc-800/80">
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-[#238636]"></span>
-                        <h2 class="text-base font-semibold text-white">Security Audit Findings & Metrics</h2>
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        <h2 class="text-base font-semibold text-zinc-100">Assessment Findings & Metrics</h2>
                     </div>
-                    <p class="text-xs text-[#8b949e] mt-0.5">Automated assessment complete. Review identified vulnerabilities, status codes, and remediation advice.</p>
+                    <p class="text-xs text-zinc-400 mt-0.5">Automated penetration audit completed. Review identified flaws and remediation steps.</p>
                 </div>
 
-                <!-- Primary Action Buttons (Functional labels, no magic sparkles) -->
+                <!-- Watermelon Action Buttons (No magic sparkles, high-contrast flat styling) -->
                 <div class="flex items-center gap-2">
-                    <button type="button" id="btn-open-report" onclick="openReportWindow()" 
-                            class="px-3.5 py-1.5 bg-[#238636] hover:bg-[#2ea043] text-white font-medium text-xs rounded transition flex items-center gap-1.5">
-                        <i class="fas fa-file-lines text-xs"></i> View HTML Report
+                    <button type="button" onclick="openReport()" 
+                            class="h-8 px-3.5 bg-zinc-100 hover:bg-zinc-200 text-zinc-950 font-semibold text-xs rounded-md transition flex items-center gap-1.5">
+                        <i class="fas fa-file-lines text-xs"></i> View Full Report
                     </button>
-                    <button type="button" id="btn-remediation" onclick="triggerRemediation()" 
-                            class="px-3.5 py-1.5 bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] text-[#c9d1d9] font-medium text-xs rounded transition flex items-center gap-1.5">
-                        <i class="fas fa-wrench text-xs text-[#58a6ff]"></i> Remediation Playbook
+                    <button type="button" onclick="loadRemediation()" 
+                            class="h-8 px-3.5 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-medium text-xs rounded-md transition flex items-center gap-1.5">
+                        <i class="fas fa-wrench text-xs text-zinc-400"></i> Remediation Playbook
                     </button>
-                    <button type="button" onclick="startNewAudit()" 
-                            class="px-3 py-1.5 bg-[#0d1117] hover:bg-[#161b22] border border-[#30363d] text-[#8b949e] hover:text-white text-xs rounded transition">
+                    <button type="button" onclick="resetScan()" 
+                            class="h-8 px-3 bg-transparent hover:bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-200 text-xs rounded-md transition">
                         New Audit
                     </button>
                 </div>
             </div>
 
-            <!-- Compact Key-Value Metric Strip (Replaces 4 square cards) -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5 font-mono text-xs">
-                <div class="p-3 bg-[#0d1117] border border-[#30363d] rounded">
-                    <span class="text-[#8b949e] block text-[11px] mb-1">POSTURE GRADE</span>
-                    <span id="metric-grade" class="text-lg font-bold text-[#58a6ff]">B</span>
+            <!-- Impeccable Key-Value Metric Strip -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
+                <div class="p-3.5 rounded-lg border border-zinc-800 bg-zinc-900/30">
+                    <span class="text-[11px] text-zinc-400 uppercase tracking-wider block mb-1">POSTURE GRADE</span>
+                    <span id="metric-grade" class="text-lg font-bold text-zinc-100">B</span>
                 </div>
-                <div class="p-3 bg-[#0d1117] border border-[#30363d] rounded">
-                    <span class="text-[#8b949e] block text-[11px] mb-1">VULNERABILITIES</span>
-                    <span id="metric-vulns" class="text-lg font-bold text-[#f85149]">0</span>
+                <div class="p-3.5 rounded-lg border border-zinc-800 bg-zinc-900/30">
+                    <span class="text-[11px] text-zinc-400 uppercase tracking-wider block mb-1">VULNERABILITIES</span>
+                    <span id="metric-vulns" class="text-lg font-bold text-rose-400">0</span>
                 </div>
-                <div class="p-3 bg-[#0d1117] border border-[#30363d] rounded">
-                    <span class="text-[#8b949e] block text-[11px] mb-1">CRAWLED ENDPOINTS</span>
-                    <span id="metric-pages" class="text-lg font-bold text-white">0</span>
+                <div class="p-3.5 rounded-lg border border-zinc-800 bg-zinc-900/30">
+                    <span class="text-[11px] text-zinc-400 uppercase tracking-wider block mb-1">PAGES CRAWLED</span>
+                    <span id="metric-pages" class="text-lg font-bold text-zinc-100">0</span>
                 </div>
-                <div class="p-3 bg-[#0d1117] border border-[#30363d] rounded">
-                    <span class="text-[#8b949e] block text-[11px] mb-1">ENUMERATED PORTS</span>
-                    <span id="metric-ports" class="text-lg font-bold text-[#238636]">0</span>
+                <div class="p-3.5 rounded-lg border border-zinc-800 bg-zinc-900/30">
+                    <span class="text-[11px] text-zinc-400 uppercase tracking-wider block mb-1">OPEN PORTS</span>
+                    <span id="metric-ports" class="text-lg font-bold text-emerald-400">0</span>
                 </div>
             </div>
 
-            <!-- Findings Data Table -->
-            <div class="border border-[#30363d] rounded overflow-hidden mb-5">
-                <div class="bg-[#0d1117] px-3.5 py-2 border-b border-[#30363d] flex items-center justify-between text-xs font-mono">
-                    <span class="font-semibold text-white">TRIAGE TABLE // IDENTIFIED DEFECTS</span>
-                    <span class="text-[#8b949e]" id="table-findings-count">0 items</span>
+            <!-- Watermelon UI Data Grid Table -->
+            <div class="rounded-lg border border-zinc-800 overflow-hidden">
+                <div class="bg-zinc-900/60 px-4 py-2.5 border-b border-zinc-800 flex items-center justify-between text-xs font-mono">
+                    <span class="font-semibold text-zinc-200">IDENTIFIED VULNERABILITY TRIAGE</span>
+                    <span class="text-zinc-400" id="findings-count-badge">0 items</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs border-collapse">
                         <thead>
-                            <tr class="bg-[#161b22] border-b border-[#30363d] font-mono text-[11px] text-[#8b949e]">
-                                <th class="py-2 px-3 border-r border-[#30363d] w-24">SEVERITY</th>
-                                <th class="py-2 px-3 border-r border-[#30363d]">FINDING</th>
-                                <th class="py-2 px-3 border-r border-[#30363d]">AFFECTED RESOURCE</th>
-                                <th class="py-2 px-3 w-32">ACTION</th>
+                            <tr class="bg-zinc-900/30 border-b border-zinc-800 font-mono text-[11px] text-zinc-400">
+                                <th class="py-2.5 px-4 border-r border-zinc-800 w-24">SEVERITY</th>
+                                <th class="py-2.5 px-4 border-r border-zinc-800">FINDING IDENTIFIER</th>
+                                <th class="py-2.5 px-4 border-r border-zinc-800">AFFECTED RESOURCE</th>
+                                <th class="py-2.5 px-4 w-28">ACTION</th>
                             </tr>
                         </thead>
-                        <tbody id="findings-tbody" class="divide-y divide-[#21262d] font-mono">
+                        <tbody id="findings-tbody" class="divide-y divide-zinc-800/80 font-mono">
                             <tr>
-                                <td colspan="4" class="py-4 text-center text-[#8b949e]">No vulnerabilities identified.</td>
+                                <td colspan="4" class="py-4 text-center text-zinc-500">No vulnerabilities identified in active session buffer.</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Remediation Playbook Panel (Toggled via button) -->
-            <div id="remediation-panel" class="hidden border border-[#30363d] bg-[#0d1117] rounded p-4 text-xs font-mono">
-                <div class="flex items-center justify-between pb-2 mb-3 border-b border-[#21262d]">
-                    <span class="font-semibold text-[#58a6ff] flex items-center gap-2">
-                        <i class="fas fa-wrench"></i> DEFENSIVE REMEDIATION ADVISORY
+            <!-- Remediation Playbook Drawer -->
+            <div id="remediation-drawer" class="hidden rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 font-mono text-xs">
+                <div class="flex items-center justify-between pb-2 mb-3 border-b border-zinc-800">
+                    <span class="font-semibold text-zinc-200 flex items-center gap-2">
+                        <i class="fas fa-wrench text-zinc-400"></i> DEFENSIVE PATCH ADVISORY
                     </span>
-                    <button type="button" onclick="document.getElementById('remediation-panel').classList.add('hidden')" class="text-[#8b949e] hover:text-white">
+                    <button type="button" onclick="document.getElementById('remediation-drawer').classList.add('hidden')" class="text-zinc-500 hover:text-zinc-300">
                         [Close]
                     </button>
                 </div>
-                <div id="remediation-content" class="space-y-3">
-                    <p class="text-[#8b949e]">Querying remediation context...</p>
+                <div id="remediation-details" class="space-y-3">
+                    <p class="text-zinc-500">Querying remediation engine...</p>
                 </div>
             </div>
         </section>
 
-        <!-- WORKBENCH 4: Historical Audit Records -->
-        <section class="bg-[#161b22] border border-[#30363d] rounded-lg p-5">
-            <div class="flex items-center justify-between pb-3 mb-3 border-b border-[#21262d]">
-                <h3 class="text-xs font-semibold text-white uppercase tracking-wider font-mono">Audit Execution History</h3>
-                <button type="button" onclick="loadAuditHistory()" class="text-xs font-mono text-[#58a6ff] hover:underline">
+        <!-- COMPONENT 4: Execution Audit History -->
+        <section class="rounded-xl border border-zinc-800/80 bg-zinc-950 p-6">
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-zinc-800/80">
+                <h3 class="text-xs font-semibold text-zinc-100 uppercase tracking-wider font-mono">Previous Audit Sessions</h3>
+                <button type="button" onclick="loadHistory()" class="text-xs font-mono text-zinc-400 hover:text-zinc-200 transition">
                     [Refresh]
                 </button>
             </div>
-            <div id="history-container" class="space-y-2">
-                <p class="text-xs text-[#8b949e] py-2 font-mono">Loading history records...</p>
+            <div id="history-list" class="space-y-2">
+                <p class="text-xs text-zinc-500 font-mono py-1">Loading session logs...</p>
             </div>
         </section>
 
     </main>
 
-    <!-- Plain Compliance Footer -->
-    <footer class="border-t border-[#30363d] bg-[#0d1117] py-4 text-xs text-[#8b949e] font-mono">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <span>&copy; 2026 CyberGuard Systems. Automated DAST Audit Daemon.</span>
+    <!-- Impeccable Minimal Footer -->
+    <footer class="border-t border-zinc-800/80 bg-[#09090b] py-5 text-xs text-zinc-500 font-mono">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <span>&copy; 2026 CyberGuard Suite. Autonomous DAST Security Engine.</span>
             <div class="flex items-center gap-4">
-                <a href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool/blob/main/README.md#terms" target="_blank" class="hover:text-white transition">Terms of Service</a>
-                <a href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool/blob/main/README.md#privacy" target="_blank" class="hover:text-white transition">Privacy Policy</a>
-                <a href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool/blob/main/README.md#security" target="_blank" class="hover:text-white transition">Security Disclosure</a>
+                <a href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool/blob/main/README.md#terms" target="_blank" class="hover:text-zinc-300 transition">Terms of Service</a>
+                <a href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool/blob/main/README.md#privacy" target="_blank" class="hover:text-zinc-300 transition">Privacy Policy</a>
+                <a href="https://github.com/anshgupta9116-cmd/Pentration-testing-tool/blob/main/README.md#security" target="_blank" class="hover:text-zinc-300 transition">Security Disclosure</a>
             </div>
         </div>
     </footer>
 
-    <!-- Socket.IO & Core Application Logic -->
+    <!-- Socket.IO & Application Integration Scripts -->
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <script>
         const socket = io();
         let currentScanId = null;
-        let timerInterval = null;
+        let elapsedTimerInterval = null;
         let elapsedSeconds = 0;
         let currentScanData = null;
 
         // WebSocket Handlers
         socket.on('connect', () => {
-            document.getElementById('daemon-indicator').textContent = 'Daemon: Connected (127.0.0.1:5000)';
+            document.getElementById('daemon-status').textContent = 'Daemon: Connected (127.0.0.1:5000)';
             appendLog('[SYS] WebSocket telemetry connection established.');
         });
 
         socket.on('scan_progress', (data) => {
             if (data.scan_id === currentScanId) {
-                processTelemetryUpdate(data);
+                handleTelemetryUpdate(data);
             }
         });
 
-        // Preset Segmented Switcher
-        function switchPreset(type) {
+        // Watermelon Tab Switcher
+        function selectProfile(type) {
             const tabs = ['fast', 'standard', 'deep'];
             tabs.forEach(t => {
-                const btn = document.getElementById(`tab-preset-${t}`);
+                const btn = document.getElementById(`tab-${t}`);
                 if (t === type) {
-                    btn.className = 'px-3 py-1 rounded bg-[#21262d] text-white font-medium hover:text-white transition';
+                    btn.className = 'rounded-md bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-100 transition';
                 } else {
-                    btn.className = 'px-3 py-1 rounded text-[#8b949e] hover:text-white transition';
+                    btn.className = 'rounded-md px-3 py-1 text-xs font-medium text-zinc-400 hover:text-zinc-200 transition';
                 }
             });
 
@@ -400,8 +401,20 @@
             }
         }
 
-        // Trigger Execution
-        async function executeAudit(e) {
+        function toggleAdvanced() {
+            const p = document.getElementById('adv-panel');
+            const chevron = document.getElementById('adv-chevron');
+            if (p.classList.contains('hidden')) {
+                p.classList.remove('hidden');
+                chevron.classList.add('rotate-90');
+            } else {
+                p.classList.add('hidden');
+                chevron.classList.remove('rotate-90');
+            }
+        }
+
+        // Start Scan Submission
+        async function handleStartScan(e) {
             e.preventDefault();
 
             const targetUrl = document.getElementById('target_url').value.trim();
@@ -416,18 +429,18 @@
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin text-xs"></i> <span>Initializing...</span>';
 
-            document.getElementById('config-panel').classList.add('hidden');
-            document.getElementById('results-panel').classList.add('hidden');
-            document.getElementById('telemetry-panel').classList.remove('hidden');
+            document.getElementById('config-card').classList.add('hidden');
+            document.getElementById('results-card').classList.add('hidden');
+            document.getElementById('telemetry-card').classList.remove('hidden');
 
-            document.getElementById('live-target-badge').textContent = `Target: ${targetUrl}`;
-            document.getElementById('live-progress-bar').style.width = '0%';
-            document.getElementById('live-progress-pct').textContent = '0%';
-            document.getElementById('live-stage-desc').textContent = 'Initializing test harness...';
+            document.getElementById('telemetry-target-label').textContent = `Target: ${targetUrl}`;
+            document.getElementById('telemetry-progress-fill').style.width = '0%';
+            document.getElementById('telemetry-pct').textContent = '0%';
+            document.getElementById('telemetry-stage-title').textContent = 'Initializing assessment harness...';
 
-            resetPipelineSteps();
-            clearTelemetryLog();
-            startElapsedTimer();
+            resetSteps();
+            clearLogs();
+            startTimer();
 
             try {
                 const response = await fetch('/api/scan/start', {
@@ -445,10 +458,10 @@
                 const result = await response.json();
                 if (response.ok) {
                     currentScanId = result.scan_id;
-                    appendLog(`[DISPATCH] Task accepted by daemon: ${currentScanId}`);
-                    pollScanState();
+                    appendLog(`[DISPATCH] Task accepted: ${currentScanId}`);
+                    pollScanStatus();
                 } else {
-                    appendLog(`[ERROR] Task rejected: ${result.error || 'Unknown error'}`);
+                    appendLog(`[ERROR] Dispatch failed: ${result.error || 'Server error'}`);
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = '<i class="fas fa-play text-[10px]"></i> <span>Execute Audit</span>';
                 }
@@ -459,120 +472,120 @@
             }
         }
 
-        function processTelemetryUpdate(data) {
+        function handleTelemetryUpdate(data) {
             const pct = data.progress !== undefined ? data.progress : 0;
-            document.getElementById('live-progress-bar').style.width = `${pct}%`;
-            document.getElementById('live-progress-pct').textContent = `${pct}%`;
+            document.getElementById('telemetry-progress-fill').style.width = `${pct}%`;
+            document.getElementById('telemetry-pct').textContent = `${pct}%`;
 
             if (data.message) {
-                document.getElementById('live-stage-desc').textContent = data.message;
-                appendLog(`[${(data.stage || 'RUN').toUpperCase()}] ${data.message}`);
+                document.getElementById('telemetry-stage-title').textContent = data.message;
+                appendLog(`[${(data.stage || 'STAGE').toUpperCase()}] ${data.message}`);
             }
 
-            updatePipelineStep(data.stage);
+            highlightStep(data.stage);
 
             if (data.stage === 'complete' || pct >= 100) {
-                stopElapsedTimer();
+                stopTimer();
                 setTimeout(() => {
-                    renderFinishedResults();
+                    displayCompletedResults();
                 }, 1000);
             } else if (data.stage === 'error') {
-                stopElapsedTimer();
+                stopTimer();
             }
         }
 
-        function updatePipelineStep(currentStage) {
+        function highlightStep(stage) {
             const steps = ['crawling', 'port_scanning', 'passive_scanning', 'active_scanning', 'reporting'];
-            const curIdx = steps.indexOf(currentStage);
+            const curIdx = steps.indexOf(stage);
 
             steps.forEach((stg, i) => {
                 const el = document.getElementById(`step-${stg}`);
                 if (!el) return;
                 if (i < curIdx) {
-                    el.className = 'py-2 bg-[#1f2937] text-[#3fb950] font-semibold';
+                    el.className = 'py-1.5 text-emerald-400 font-semibold';
                     el.innerHTML = `✓ ${el.textContent.replace(/^✓ |^▶ /, '')}`;
                 } else if (i === curIdx) {
-                    el.className = 'py-2 bg-[#21262d] text-[#58a6ff] font-semibold';
+                    el.className = 'py-1.5 text-zinc-100 font-semibold bg-zinc-800 rounded';
                     el.innerHTML = `▶ ${el.textContent.replace(/^✓ |^▶ /, '')}`;
                 } else {
-                    el.className = 'py-2 text-[#8b949e]';
+                    el.className = 'py-1.5 text-zinc-500';
                     el.innerHTML = `${el.textContent.replace(/^✓ |^▶ /, '')}`;
                 }
             });
         }
 
-        function resetPipelineSteps() {
+        function resetSteps() {
             const steps = [
-                ['crawling', '1. Crawler'],
-                ['port_scanning', '2. Port Scan'],
+                ['crawling', '1. Spider'],
+                ['port_scanning', '2. Port Probing'],
                 ['passive_scanning', '3. Headers/SSL'],
                 ['active_scanning', '4. Active Fuzzing'],
-                ['reporting', '5. Report Gen']
+                ['reporting', '5. Synthesis']
             ];
             steps.forEach(([id, name]) => {
                 const el = document.getElementById(`step-${id}`);
                 if (el) {
-                    el.className = 'py-2 text-[#8b949e]';
+                    el.className = 'py-1.5 text-zinc-500';
                     el.textContent = name;
                 }
             });
         }
 
         function appendLog(line) {
-            const logBox = document.getElementById('telemetry-log');
+            const logBox = document.getElementById('telemetry-logs-box');
             const time = new Date().toLocaleTimeString();
             const p = document.createElement('p');
-            p.className = 'text-[#c9d1d9]';
-            p.innerHTML = `<span class="text-[#8b949e] font-mono">[${time}]</span> ${escapeHtml(line)}`;
+            p.className = 'text-zinc-300';
+            p.innerHTML = `<span class="text-zinc-500 font-mono">[${time}]</span> ${escapeHtml(line)}`;
             logBox.appendChild(p);
             logBox.scrollTop = logBox.scrollHeight;
         }
 
-        function clearTelemetryLog() {
-            document.getElementById('telemetry-log').innerHTML = '';
+        function clearLogs() {
+            document.getElementById('telemetry-logs-box').innerHTML = '';
         }
 
-        function startElapsedTimer() {
-            stopElapsedTimer();
+        function startTimer() {
+            stopTimer();
             elapsedSeconds = 0;
-            timerInterval = setInterval(() => {
+            elapsedTimerInterval = setInterval(() => {
                 elapsedSeconds++;
                 const mins = String(Math.floor(elapsedSeconds / 60)).padStart(2, '0');
                 const secs = String(elapsedSeconds % 60).padStart(2, '0');
-                document.getElementById('live-timer').textContent = `${mins}:${secs}`;
+                document.getElementById('telemetry-elapsed').textContent = `${mins}:${secs}`;
             }, 1000);
         }
 
-        function stopElapsedTimer() {
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
+        function stopTimer() {
+            if (elapsedTimerInterval) {
+                clearInterval(elapsedTimerInterval);
+                elapsedTimerInterval = null;
             }
         }
 
-        async function pollScanState() {
+        async function pollScanStatus() {
             if (!currentScanId) return;
             try {
                 const res = await fetch(`/api/scan/${currentScanId}/status`);
                 const status = await res.json();
                 if (status.status === 'complete') {
-                    stopElapsedTimer();
-                    renderFinishedResults();
+                    stopTimer();
+                    displayCompletedResults();
                 } else if (status.status === 'error') {
-                    stopElapsedTimer();
+                    stopTimer();
                     appendLog(`[FAIL] Runtime error: ${status.error}`);
                 } else {
-                    setTimeout(pollScanState, 2000);
+                    setTimeout(pollScanStatus, 2000);
                 }
             } catch (err) {
-                setTimeout(pollScanState, 4000);
+                setTimeout(pollScanStatus, 4000);
             }
         }
 
-        // Render Results
-        async function renderFinishedResults() {
-            document.getElementById('telemetry-panel').classList.add('hidden');
-            document.getElementById('results-panel').classList.remove('hidden');
+        // Display Completed Results
+        async function displayCompletedResults() {
+            document.getElementById('telemetry-card').classList.add('hidden');
+            document.getElementById('results-card').classList.remove('hidden');
 
             const submitBtn = document.getElementById('btn-submit');
             submitBtn.disabled = false;
@@ -595,14 +608,14 @@
 
                 // Colorize grade
                 const gradeEl = document.getElementById('metric-grade');
-                if (grade === 'A' || grade === 'B') gradeEl.className = 'text-lg font-bold text-[#3fb950]';
-                else if (grade === 'F') gradeEl.className = 'text-lg font-bold text-[#f85149]';
-                else gradeEl.className = 'text-lg font-bold text-[#d29922]';
+                if (grade === 'A' || grade === 'B') gradeEl.className = 'text-lg font-bold text-emerald-400';
+                else if (grade === 'F') gradeEl.className = 'text-lg font-bold text-rose-400';
+                else gradeEl.className = 'text-lg font-bold text-amber-400';
 
                 const missingHeaders = passive.missing_headers || [];
                 const totalVulns = active.length + missingHeaders.length;
                 document.getElementById('metric-vulns').textContent = totalVulns;
-                document.getElementById('table-findings-count').textContent = `${totalVulns} items detected`;
+                document.getElementById('findings-count-badge').textContent = `${totalVulns} items detected`;
 
                 const tbody = document.getElementById('findings-tbody');
                 tbody.innerHTML = '';
@@ -610,71 +623,71 @@
                 if (totalVulns === 0) {
                     tbody.innerHTML = `
                         <tr>
-                            <td colspan="4" class="py-4 text-center text-[#3fb950]">
-                                ✓ Perimeter Clean: No exploitable vulnerabilities detected.
+                            <td colspan="4" class="py-4 text-center text-emerald-400 font-mono">
+                                ✓ Target Surface Clean: No exploitable vulnerabilities identified.
                             </td>
                         </tr>
                     `;
                 } else {
-                    // Active injection findings
-                    active.forEach((f, i) => {
+                    // Active Injection findings
+                    active.forEach((f) => {
                         const tr = document.createElement('tr');
-                        tr.className = 'hover:bg-[#0d1117] transition-colors';
+                        tr.className = 'hover:bg-zinc-900/40 transition-colors';
                         tr.innerHTML = `
-                            <td class="py-2 px-3 border-r border-[#30363d]">
-                                <span class="px-1.5 py-0.5 rounded bg-[#b62324]/20 border border-[#b62324]/40 text-[#ff7b72] font-semibold text-[10px]">CRITICAL</span>
+                            <td class="py-2.5 px-4 border-r border-zinc-800">
+                                <span class="px-2 py-0.5 rounded-full bg-rose-950/60 border border-rose-500/30 text-rose-400 font-medium text-[10px]">CRITICAL</span>
                             </td>
-                            <td class="py-2 px-3 border-r border-[#30363d] text-white font-medium">
+                            <td class="py-2.5 px-4 border-r border-zinc-800 text-zinc-100 font-medium">
                                 ${escapeHtml(f.type)}
                             </td>
-                            <td class="py-2 px-3 border-r border-[#30363d] text-[#c9d1d9]">
+                            <td class="py-2.5 px-4 border-r border-zinc-800 text-zinc-300">
                                 ${escapeHtml(f.method || 'GET')} ${escapeHtml(f.url)}
-                                ${f.param ? `<span class="text-[#8b949e]">(${escapeHtml(f.param)})</span>` : ''}
+                                ${f.param ? `<span class="text-zinc-500">(${escapeHtml(f.param)})</span>` : ''}
                             </td>
-                            <td class="py-2 px-3">
-                                <button type="button" onclick="copyCurl('${escapeHtml(f.url)}')" class="text-[#58a6ff] hover:underline">[Copy cURL]</button>
+                            <td class="py-2.5 px-4">
+                                <button type="button" onclick="copyCurl('${escapeHtml(f.url)}')" class="text-zinc-400 hover:text-zinc-100 transition">[Copy cURL]</button>
                             </td>
                         `;
                         tbody.appendChild(tr);
                     });
 
                     // Missing headers
-                    missingHeaders.forEach((h, i) => {
+                    missingHeaders.forEach((h) => {
                         const tr = document.createElement('tr');
-                        tr.className = 'hover:bg-[#0d1117] transition-colors';
+                        tr.className = 'hover:bg-zinc-900/40 transition-colors';
                         tr.innerHTML = `
-                            <td class="py-2 px-3 border-r border-[#30363d]">
-                                <span class="px-1.5 py-0.5 rounded bg-[#9e6a03]/20 border border-[#9e6a03]/40 text-[#d29922] font-semibold text-[10px]">MEDIUM</span>
+                            <td class="py-2.5 px-4 border-r border-zinc-800">
+                                <span class="px-2 py-0.5 rounded-full bg-amber-950/60 border border-amber-500/30 text-amber-400 font-medium text-[10px]">MEDIUM</span>
                             </td>
-                            <td class="py-2 px-3 border-r border-[#30363d] text-white font-medium">
-                                Missing Security Header: ${escapeHtml(h)}
+                            <td class="py-2.5 px-4 border-r border-zinc-800 text-zinc-200 font-medium">
+                                Missing Header: ${escapeHtml(h)}
                             </td>
-                            <td class="py-2 px-3 border-r border-[#30363d] text-[#8b949e]">
-                                Global Proxy Policy
+                            <td class="py-2.5 px-4 border-r border-zinc-800 text-zinc-400">
+                                Web Server Policy / Global
                             </td>
-                            <td class="py-2 px-3 text-[#8b949e]">
-                                Enforce in web server
+                            <td class="py-2.5 px-4 text-zinc-500">
+                                Enforce header
                             </td>
                         `;
                         tbody.appendChild(tr);
                     });
                 }
 
-                loadAuditHistory();
+                loadHistory();
             } catch (err) {
                 console.error(err);
             }
         }
 
-        // Remediation Playbook (Clean technical drawer)
-        async function triggerRemediation() {
+        // Remediation Playbook
+        async function loadRemediation() {
             if (!currentScanId || !currentScanData) return;
-            const panel = document.getElementById('remediation-panel');
-            const content = document.getElementById('remediation-content');
+            const drawer = document.getElementById('remediation-drawer');
+            const details = document.getElementById('remediation-details');
 
-            panel.classList.remove('hidden');
-            content.innerHTML = '<p class="text-[#8b949e]">[SYS] Querying remediation engine for patch playbook...</p>';
-            panel.scrollIntoView({ behavior: 'smooth' });
+            drawer.classList.remove('hidden');
+            details.innerHTML = '<p class="text-zinc-400 flex items-center gap-2"><i class="fas fa-spinner fa-spin"></i> Querying remediation engine...</p>';
+            drawer.scrollIntoView({ behavior: 'smooth' });
 
             try {
                 const payload = Object.assign({}, currentScanData, { provider: 'gemini' });
@@ -690,30 +703,30 @@
                 }
 
                 const data = await res.json();
-                renderRemediationPlaybook(data);
+                renderRemediationData(data);
             } catch (e) {
-                content.innerHTML = `
-                    <div class="text-[#ff7b72] space-y-1">
-                        <p class="font-bold">Playbook Generation Notice:</p>
+                details.innerHTML = `
+                    <div class="text-rose-400 space-y-1">
+                        <p class="font-bold">Remediation Notice:</p>
                         <p>${escapeHtml(e.message)}</p>
-                        <p class="text-[#8b949e] text-[11px] pt-1">Verify that your GEMINI_API_KEY is configured in the environment if querying live Gemini models.</p>
+                        <p class="text-zinc-500 text-[11px]">Ensure GEMINI_API_KEY is configured in .env for live Gemini advisory queries.</p>
                     </div>
                 `;
             }
         }
 
-        function renderRemediationPlaybook(data) {
-            const content = document.getElementById('remediation-content');
+        function renderRemediationData(data) {
+            const details = document.getElementById('remediation-details');
             let html = '<div class="space-y-3">';
 
             if (data.active_vulnerabilities && data.active_vulnerabilities.length > 0) {
                 data.active_vulnerabilities.forEach((v, i) => {
                     html += `
-                        <div class="p-3 bg-[#161b22] border border-[#30363d] rounded space-y-1">
-                            <span class="text-[#ff7b72] font-semibold uppercase">[DEFECT #${i + 1}] ${escapeHtml(v.type)}</span>
-                            <p class="text-white">${escapeHtml(v.remediation ? v.remediation.summary : 'Sanitize input.')}</p>
+                        <div class="p-3 bg-zinc-950 border border-zinc-800 rounded-lg space-y-1.5">
+                            <span class="text-rose-400 font-semibold uppercase text-[11px] block">[DEFECT #${i + 1}] ${escapeHtml(v.type)}</span>
+                            <p class="text-zinc-200">${escapeHtml(v.remediation ? v.remediation.summary : 'Sanitize input.')}</p>
                             ${v.remediation && v.remediation.details ? `
-                                <ul class="list-disc list-inside text-[#8b949e] text-[11px] pt-1 space-y-0.5">
+                                <ul class="list-disc list-inside text-zinc-400 text-[11px] space-y-0.5 pt-1">
                                     ${v.remediation.details.map(d => `<li>${escapeHtml(d)}</li>`).join('')}
                                 </ul>
                             ` : ''}
@@ -721,64 +734,64 @@
                     `;
                 });
             } else {
-                html += '<p class="text-[#3fb950]">No active defects requiring patch generation.</p>';
+                html += '<p class="text-emerald-400">All scanned parameters meet input validation standards.</p>';
             }
 
             html += '</div>';
-            content.innerHTML = html;
+            details.innerHTML = html;
         }
 
-        function openReportWindow() {
+        function openReport() {
             if (currentScanId) {
                 window.open(`/api/scan/${currentScanId}/report`, '_blank');
             }
         }
 
-        function startNewAudit() {
-            document.getElementById('results-panel').classList.add('hidden');
-            document.getElementById('telemetry-panel').classList.add('hidden');
-            document.getElementById('config-panel').classList.remove('hidden');
+        function resetScan() {
+            document.getElementById('results-card').classList.add('hidden');
+            document.getElementById('telemetry-card').classList.add('hidden');
+            document.getElementById('config-card').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function copyCurl(url) {
             const cmd = `curl -ik -s -X GET "${url}"`;
             navigator.clipboard.writeText(cmd).then(() => {
-                alert('Copied vector to clipboard:\n' + cmd);
+                alert('Copied cURL vector to clipboard:\n' + cmd);
             });
         }
 
-        // Audit History
-        async function loadAuditHistory() {
-            const container = document.getElementById('history-container');
+        // Historical Audits
+        async function loadHistory() {
+            const list = document.getElementById('history-list');
             try {
                 const res = await fetch('/api/scans');
                 const data = await res.json();
 
                 if (!data.scans || data.scans.length === 0) {
-                    container.innerHTML = '<p class="text-xs text-[#8b949e] font-mono py-1">No historical scan entries found.</p>';
+                    list.innerHTML = '<p class="text-xs text-zinc-500 font-mono py-1">No previous audits found.</p>';
                     return;
                 }
 
-                container.innerHTML = data.scans.map(s => {
+                list.innerHTML = data.scans.map(s => {
                     const dateStr = s.start_time ? new Date(s.start_time).toLocaleString() : 'Recent';
                     const isDone = s.status === 'complete' || !!s.summary;
                     const vulns = s.summary ? `${s.summary.vulnerabilities} defects` : '0 defects';
                     const grade = s.summary ? `Grade: ${s.summary.grade}` : '';
 
                     return `
-                        <div class="p-2.5 bg-[#0d1117] border border-[#30363d] rounded flex items-center justify-between text-xs font-mono">
+                        <div class="p-3 rounded-lg border border-zinc-800/80 bg-zinc-900/20 hover:bg-zinc-900/40 transition flex items-center justify-between text-xs font-mono">
                             <div class="truncate">
-                                <span class="text-white font-medium block truncate">${escapeHtml(s.target_url)}</span>
-                                <span class="text-[11px] text-[#8b949e]">${dateStr} &bull; ${vulns} ${grade ? `&bull; ${grade}` : ''}</span>
+                                <span class="text-zinc-100 font-medium block truncate">${escapeHtml(s.target_url)}</span>
+                                <span class="text-[11px] text-zinc-500 mt-0.5">${dateStr} &bull; ${vulns} ${grade ? `&bull; ${grade}` : ''}</span>
                             </div>
                             <div class="flex items-center gap-2 shrink-0">
-                                <span class="px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase ${isDone ? 'bg-[#238636]/20 text-[#3fb950]' : 'bg-[#1f6feb]/20 text-[#58a6ff]'}">
+                                <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase ${isDone ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-500/20' : 'bg-blue-950/60 text-blue-400'}">
                                     ${isDone ? 'COMPLETE' : 'ACTIVE'}
                                 </span>
                                 ${isDone ? `
                                     <button type="button" onclick="window.open('/api/scan/${s.scan_id}/report', '_blank')" 
-                                            class="px-2 py-0.5 border border-[#30363d] hover:border-[#8b949e] text-white rounded text-[11px] transition">
+                                            class="px-2.5 py-1 rounded-md border border-zinc-800 hover:bg-zinc-800 text-zinc-300 hover:text-white transition text-xs font-medium">
                                         Report
                                     </button>
                                 ` : ''}
@@ -798,8 +811,8 @@
             return d.innerHTML;
         }
 
-        // Initialize history on load
-        loadAuditHistory();
+        // Initialize on load
+        loadHistory();
     </script>
 </body>
 </html>
